@@ -32,8 +32,6 @@ public class LocationPicker extends javax.swing.JFrame {
     private City city;
     private Attraction attraction;
 
-    Browser browser;
-    BrowserView view;
     Engine engine = Engine.newInstance(
         EngineOptions.newBuilder(HARDWARE_ACCELERATED)
                 .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
@@ -64,16 +62,15 @@ public class LocationPicker extends javax.swing.JFrame {
     
     private void openSite(){
         
-        browser = engine.newBrowser();
+        Browser browser = engine.newBrowser();
         SwingUtilities.invokeLater(() -> {
             this.addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e){
             engine.close();}
             });         
-            view = BrowserView.newInstance(browser);      
+            BrowserView view = BrowserView.newInstance(browser);      
             mapPanel.add(view,BorderLayout.CENTER );
-
             browser.navigation().loadUrl("https://html5test.com/");
                
         });
@@ -135,7 +132,7 @@ public class LocationPicker extends javax.swing.JFrame {
             .addGroup(headerBarLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(hospitalinfoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 475, Short.MAX_VALUE)
                 .addComponent(foldLabel)
                 .addGap(18, 18, 18)
                 .addComponent(crossLabel)
@@ -181,7 +178,7 @@ public class LocationPicker extends javax.swing.JFrame {
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGap(0, 494, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
@@ -189,11 +186,11 @@ public class LocationPicker extends javax.swing.JFrame {
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(224, 224, 224)
                 .addComponent(cancelBtn)
-                .addGap(92, 92, 92)
+                .addGap(123, 123, 123)
                 .addComponent(updateBtn)
-                .addGap(103, 103, 103))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contentPanelLayout.setVerticalGroup(
@@ -222,7 +219,7 @@ public class LocationPicker extends javax.swing.JFrame {
                 .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(451, 482));
+        setSize(new java.awt.Dimension(742, 604));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

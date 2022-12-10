@@ -173,7 +173,7 @@
                       <Component id="usernameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane" pref="519" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="logoutBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
@@ -368,7 +368,7 @@
                             <Column editable="true" title="Name" type="java.lang.Object"/>
                             <Column editable="true" title="Type" type="java.lang.Object"/>
                             <Column editable="true" title="City" type="java.lang.Object"/>
-                            <Column editable="true" title="Price" type="java.lang.Object"/>
+                            <Column editable="true" title="Cost" type="java.lang.Object"/>
                             <Column editable="true" title="Location" type="java.lang.Object"/>
                           </Table>
                         </Property>
@@ -445,7 +445,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fe" green="f1" red="e4" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Price:"/>
+                    <Property name="text" type="java.lang.String" value="Cost:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblAttPhoto">
@@ -725,7 +725,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="accDeleteBtn" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblLevel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -738,12 +738,16 @@
                                               </Group>
                                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
-                                              <Component id="accUpdateBtn" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                                                      <Component id="accUpdateBtn" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Component id="txtLocation" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
+                                              </Group>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="txtLocation" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">

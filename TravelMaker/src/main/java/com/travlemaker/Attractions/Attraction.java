@@ -4,6 +4,18 @@
  */
 package com.travlemaker.Attractions;
 
+import Enterprise.Enterprise;
+import LoginPage.MyConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hangzi
@@ -72,5 +84,123 @@ public class Attraction {
     public String toString() {
         return uid;
     }
+    
+//    private String name;
+//    private String uid;
+//    private String location;
+//    private double cost;
+//    private String imagePath;
+//    private String type;
+//    // 图片的格式需要确定  byte[] picture,
+    public void AddUpdateDeleteAttraction(char operation, String ID, String name, String location, double cost, String type, String city, String state, byte[] picture){
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        // i for insert
+        if(operation == 'i'){
+            try {
+                ps = con.prepareStatement("INSERT INTO OrganizationInfo(OID, OName, OType, OCity, OPrice, OLocation, Oimage, Oattraction) VALUES (?,?,?,?,?,?,?,?)");
+                ps.setString(1, ID);
+                ps.setString(2, state);
+                ps.setString(3, type);
+                ps.setString(4, city);
+                ps.setDouble(5, cost);
+                ps.setString(6, location);
+                ps.setBytes(7, picture);
+                ps.setString(8, name);
+                
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "New Attraction Added!");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        // update the date when operation == u
+        if(operation == 'u'){
+            try {
+                ps = con.prepareStatement("UPDATE `OrganizationUser` SET `OName`= ?, `OType`= ?, `OCity`= ?, `OPrice`= ? ,`OLocation`= ?,`Oimage`= ?,`Oattractio `= ?,WHERE `OID` = ?");
+                              
+                ps.setString(1, state);
+                ps.setString(2, type);
+                ps.setString(3, city);
+                ps.setDouble(4, cost);
+                ps.setString(5, location);
+                ps.setBytes(6, picture);
+                ps.setString(7, name);
+                ps.setString(8, ID);
+
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "Attraction data Updated!");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        // d for delete
+        if(operation == 'd'){
+            
+            int YesOrNo = JOptionPane.showConfirmDialog(null, "Are you sure to delete this data?","Delete Attraction",JOptionPane.OK_CANCEL_OPTION,0);
+            
+            if(YesOrNo == JOptionPane.OK_OPTION)
+            {
+               try {
+                ps = con.prepareStatement("DELETE FROM `OrganizationInfo` WHERE `OID` = ?");
+                ps.setString(1,ID);
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "Attraction Deleted");
+                    }
+                
+                } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            
+            
+        }
+        
+    }
+    
+    public void fillJtable(JTable table, String valueToSearch){
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        try {
+            
+            ps = con.prepareStatement("SELECT * FROM `OrganizationInfo` WHERE CONCAT(`OID`, `OName`, `OType`,`OCity`,`OPrice`,`OLocation`,`Oimage`, `Oattraction`)LIKE ?");
+            ps.setString(1, "%"+valueToSearch+"%");
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            
+            Object[] row;
+            
+            while(rs.next()){
+                row = new Object[8];
+                row[0] = rs.getString(1);
+                row[1] = rs.getString(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getString(4);
+                row[4] = rs.getDouble(5);
+                row[5] = rs.getString(6);
+                row[6] = rs.getBytes(7);
+                row[7] = rs.getString(8);
+
+                model.addRow(row);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+        }                  
+        
+    }
+    
     
 }

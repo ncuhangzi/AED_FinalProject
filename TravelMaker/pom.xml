@@ -14,15 +14,22 @@
     <dependencies>
         <dependency>
             <groupId>com.teamdev.jxbrowser</groupId>
-            <artifactId>jxbrowser-cross-platform</artifactId>
-            <version>7.28.1</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.teamdev.jxbrowser</groupId>
             <artifactId>jxbrowser-swing</artifactId>
             <version>7.28.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-cross-platform</artifactId>
+            <version>7.28.1</version>
+            <type>pom</type>
+         </dependency>
+         <!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+        <dependency>
+                <groupId>com.toedter</groupId>
+                <artifactId>jcalendar</artifactId>
+                <version>1.4</version>
+        </dependency>
+
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

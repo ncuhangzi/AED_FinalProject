@@ -4,26 +4,45 @@
  */
 package com.travelmaker.UI;
 
+import Enterprise.Enterprise;
+import static Enterprise.EnterpriseInfo.tblEnterprise;
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
+import com.teamdev.jxbrowser.frame.Frame;
+import com.teamdev.jxbrowser.view.swing.BrowserView;
 import com.travelmaker.Organization.City;
 import com.travelmaker.Organization.State;
 import com.travelmaker.Organization.StateCatalog;
 import com.travlemaker.Attractions.Attraction;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -40,6 +59,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     String stateImagepath;
     String cityImagePath;
     String attractionImagePath;
+    byte[] picture = null;
     /**
      * Creates new form MainJFrame
      */
@@ -308,7 +328,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "UID", "Name", "Type", "City", "Price", "Location"
+                "UID", "Name", "Type", "City", "Cost", "Location"
             }
         ));
         tblAttraction.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -327,7 +347,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         lblPrice.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
         lblPrice.setForeground(new java.awt.Color(228, 241, 254));
-        lblPrice.setText("Price:");
+        lblPrice.setText("Cost:");
 
         lblAttPhoto.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
         lblAttPhoto.setForeground(new java.awt.Color(228, 241, 254));
@@ -662,7 +682,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(accDeleteBtn)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblLevel)
@@ -672,11 +692,13 @@ public class OrganizationFrame extends javax.swing.JFrame {
                                         .addComponent(lblZip)
                                         .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(9, 9, 9))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(128, 128, 128)
-                                    .addComponent(accUpdateBtn)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                            .addGap(128, 128, 128)
+                                            .addComponent(accUpdateBtn))
+                                        .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(0, 0, Short.MAX_VALUE)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblCityName)
@@ -902,7 +924,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                     .addComponent(welcomeLabel)
                     .addComponent(usernameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                .addComponent(jTabbedPane)
                 .addGap(18, 18, 18)
                 .addComponent(logoutBtn)
                 .addGap(17, 17, 17))
@@ -978,6 +1000,10 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lblAttractionLoc.setText("");
         lblAttractionId.setText("");
         lblAttractionImage.setIcon(null);
+        selectattraction.AddUpdateDeleteAttraction('d', uid, aname, location, price, type, city, state.getName(), picture);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
+        selectattraction.fillJtable(tblAttraction, "");
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
@@ -994,6 +1020,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
         String cname = cbCity.getSelectedItem().toString();
         String aname = txtName.getText();
         City city = state.findCity(cname);
+        double cost = Double.parseDouble(txtPrice.getText());
+        String type = cbType.getSelectedItem().toString();
         //create a new attraction 
         if(!city.isExisted(selectattraction.getUid())){
             String uid = null;     
@@ -1015,7 +1043,14 @@ public class OrganizationFrame extends javax.swing.JFrame {
         selectattraction.setImagePath(attractionImagePath);
         selectattraction.setLocation(lblAttractionLoc.getText());
         lblAttractionId.setText(selectattraction.getUid());
-        populateAttractionTbl(); //refresh the table
+        
+        selectattraction.AddUpdateDeleteAttraction('u', selectattraction.getUid(), aname, lblAttractionLoc.getText(), cost, type, cname, state.getName(), picture);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","State","Type","City","Cost","Location","Image","Attraction"}));
+        selectattraction.fillJtable(tblAttraction, "");
+
+        
+        //populateAttractionTbl(); //refresh the table
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
@@ -1046,11 +1081,16 @@ public class OrganizationFrame extends javax.swing.JFrame {
         newattraction.setLocation(location);
         newattraction.setType(type);
         
+        newattraction.AddUpdateDeleteAttraction('i', uid, aname, location, price, type, city, state.getName(), picture);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
+        newattraction.fillJtable(tblAttraction, "");
+
         txtName.setText("");
         txtPrice.setText("");
         lblAttractionId.setText("");
         lblAttractionImage.setIcon(null);
-        populateAttractionTbl();
+        //populateAttractionTbl();
 
     }//GEN-LAST:event_createBtnActionPerformed
 
@@ -1114,7 +1154,10 @@ public class OrganizationFrame extends javax.swing.JFrame {
 //        //Resize image to fit the label
 //        Image img = ii.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
 //        lblImage.setIcon(new ImageIcon(img));
-//        
+//                      
+        
+        state.AddUpdateDeleteOrganziation('u', name, password, cbLang.getSelectedItem().toString(), admit, picture);
+         
         this.state.setName(name);
         this.state.setPassword(password);
         this.state.setAdmitted(admit);
@@ -1337,6 +1380,13 @@ public class OrganizationFrame extends javax.swing.JFrame {
                 File selectedImageFile = browseImageFile.getSelectedFile();
                 String selectedImagePath = selectedImageFile.getAbsolutePath();
                 this.stateImagepath = selectedImagePath;
+                FileInputStream fis = new FileInputStream(selectedImageFile);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for(int readNum; (readNum = fis.read(buf))!=-1;){
+                    bos.write(buf, 0, readNum);
+                }
+                picture = bos.toByteArray();
                 JOptionPane.showMessageDialog(null, "You are now selecting "+selectedImagePath);
                 //Display image on jlabel
                 ImageIcon ii = new ImageIcon(selectedImagePath);
@@ -1349,6 +1399,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);    
         }
+
     }//GEN-LAST:event_btnStateBrowseActionPerformed
 
     private void btnChooseLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseLocationActionPerformed
@@ -1372,6 +1423,13 @@ public class OrganizationFrame extends javax.swing.JFrame {
                 String selectedImagePath = selectedImageFile.getAbsolutePath();
                 this.attractionImagePath = selectedImagePath;
                 JOptionPane.showMessageDialog(null, "You are now selecting "+selectedImagePath);
+                FileInputStream fis = new FileInputStream(selectedImageFile);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for(int readNum; (readNum = fis.read(buf))!=-1;){
+                    bos.write(buf, 0, readNum);
+                }
+                picture = bos.toByteArray();
                 //Display image on jlabel
                 ImageIcon ii = new ImageIcon(selectedImagePath);
                 //Resize image to fit the label
@@ -1386,12 +1444,56 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAttractionBrowseActionPerformed
 
     private void btnAttractionLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttractionLocationActionPerformed
-        LocationPicker lcp = new LocationPicker();
-        lcp.setVisible(true);
-        lcp.pack();
-        lcp.setLocationRelativeTo(null);
-        lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        LocationPicker lcp = new LocationPicker();
+//        lcp.setVisible(true);
+//        lcp.pack();
+//        lcp.setLocationRelativeTo(null);
+//        lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // Initialize Chromium.
+        Engine engine = Engine.newInstance(
+        EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
+                .build());
 
+        // Create a Browser instance.
+        Browser browser = engine.newBrowser();
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Location Picker");
+            //JPanel panel = new JPanel();
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    // Shutdown Chromium and release allocated resources.
+                    engine.close();
+                }
+            });
+            // Create and embed Swing BrowserView component to display web content.
+            frame.addMouseListener(new MouseAdapter(){
+                public void MouseClicked(MouseEvent evt){
+                    System.out.println("center");
+                    browser.focusedFrame().ifPresent(frame ->{
+                        frame.document().ifPresent(document -> {
+                            document.documentElement().ifPresent(documentElemnt ->
+                                    documentElemnt.findElementsById("map").forEach(element -> {                                     
+                                        System.out.println(element.attributeValue("center"));
+                                        lblAttractionLoc.setText(element.attributeValue("center"));
+                                    }));
+                        });                  
+                    });
+                }
+            
+            });
+            frame.add(BrowserView.newInstance(browser),BorderLayout.CENTER);           
+            //panel.setSize(600,400);
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // Load the required web page.
+            //browser.navigation().loadUrl("https://html5test.com/");
+            browser.navigation().loadUrl("file:///Users/hangzi/Documents/NEU/INFO5100/AED_FinalProject/TravelMaker/src/main/java/simple_map.html");
+
+        });
     }//GEN-LAST:event_btnAttractionLocationActionPerformed
 
     private void btnCityBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCityBrowseActionPerformed

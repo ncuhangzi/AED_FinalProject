@@ -4,8 +4,20 @@
  */
 package com.travelmaker.Organization;
 
+import Enterprise.Enterprise;
+import LoginPage.MyConnection;
 import com.travlemaker.Attractions.Attraction;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -105,5 +117,107 @@ public class State {
         }
             return false;
     }
+    // 图片的格式需要确定  byte[] picture,
+    public void AddUpdateDeleteOrganziation(char operation, String name, String password, String language, String admitted, byte[] picture){
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        // i for insert
+        if(operation == 'i'){
+            try {
+                ps = con.prepareStatement("INSERT INTO OrganizationUser(Name, Password, Language, Admitted, Picture) VALUES (?,?,?,?,?)");
+                ps.setString(1, name);
+                ps.setString(2, password);
+                ps.setString(3, language);
+                ps.setString(4, admitted);
+                ps.setBytes(5, picture);
+                
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "New Organization Added!");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        // update the date when operation == u
+        if(operation == 'u'){
+            try {
+                ps = con.prepareStatement("UPDATE `OrganizationUser` SET `Name`= ?, `Password`= ?, `Language`= ?, `Admitted`= ?, `Picture`= ? WHERE `Name` = ?");
+                              
+                ps.setString(1, name);
+                ps.setString(2, password);
+                ps.setString(3, language);
+                ps.setString(4, admitted);
+                ps.setBytes(5, picture);
+
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "Organization data Updated!");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        // d for delete
+        if(operation == 'd'){
+            
+            int YesOrNo = JOptionPane.showConfirmDialog(null, "Are you sure to delete this data?","Delete Orgainization",JOptionPane.OK_CANCEL_OPTION,0);
+            
+            if(YesOrNo == JOptionPane.OK_OPTION)
+            {
+               try {
+                ps = con.prepareStatement("DELETE FROM `OrganizationUser` WHERE `Name` = ?");
+                ps.setString(1,name);
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "Organization Deleted");
+                    }
+                
+                } catch (SQLException ex) {
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+            
+            
+        }
+        
+    }
+    
+    public void fillJtable(JTable table, String valueToSearch){
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        try {
+            
+            ps = con.prepareStatement("SELECT * FROM `OrganizationUser` WHERE CONCAT(`Name`, `Password`,`Language`,`Admitted`,`Picture`)LIKE ?");
+            ps.setString(1, "%"+valueToSearch+"%");
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            
+            Object[] row;
+            
+            while(rs.next()){
+                row = new Object[5];
+                row[0] = rs.getString(1);
+                row[1] = rs.getString(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getString(4);
+                row[4] = rs.getBytes(5);
+
+                model.addRow(row);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+        }                  
+        
+    }
+    
     
 }
