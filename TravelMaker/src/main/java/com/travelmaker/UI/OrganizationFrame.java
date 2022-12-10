@@ -18,7 +18,10 @@ import com.travelmaker.Organization.StateCatalog;
 import com.travlemaker.Attractions.Attraction;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -60,6 +63,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     String cityImagePath;
     String attractionImagePath;
     byte[] picture = null;
+    String selectLocation;
     /**
      * Creates new form MainJFrame
      */
@@ -396,7 +400,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
             }
         });
 
-        lblAttractionLoc.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
+        lblAttractionLoc.setFont(new java.awt.Font("Hiragino Sans", 0, 8)); // NOI18N
         lblAttractionLoc.setForeground(new java.awt.Color(228, 241, 254));
 
         lblAtLocation.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
@@ -987,11 +991,18 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         String cname = cbCity.getSelectedItem().toString();
         City city = state.findCity(cname);
+        
+        
+        selectattraction.AddUpdateDeleteAttraction('d', selectattraction.getUid(), selectattraction.getName(), selectattraction.getLocation(), selectattraction.getCost(), selectattraction.getType(), cname, state.getName(), picture);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
+        selectattraction.fillJtable(tblAttraction, "");
+        
         city.deleteAttraction(selectattraction);
 
         JOptionPane.showMessageDialog(this, "Attraction deleted.");
 
-        populateAttractionTbl(); //refresh the table
+        //populateAttractionTbl(); //refresh the table
         //clear the textfields below
         txtName.setText("");
         txtPrice.setText("");
@@ -1000,10 +1011,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lblAttractionLoc.setText("");
         lblAttractionId.setText("");
         lblAttractionImage.setIcon(null);
-        selectattraction.AddUpdateDeleteAttraction('d', uid, aname, location, price, type, city, state.getName(), picture);
 
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
-        selectattraction.fillJtable(tblAttraction, "");
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
@@ -1057,7 +1065,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         String aname = txtName.getText();
         String type = cbType.getSelectedItem().toString();
         String city = cbCity.getSelectedItem().toString();
-        String location = "";
+        String location = lblAttractionLoc.getText();
         String attractionImagePath = this.attractionImagePath;
         double price = Double.valueOf(txtPrice.getText());
         String uid = "123";
@@ -1459,7 +1467,12 @@ public class OrganizationFrame extends javax.swing.JFrame {
         Browser browser = engine.newBrowser();
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Location Picker");
-            //JPanel panel = new JPanel();
+            JPanel mapPanel = new JPanel();           
+            JPanel buttonPanel = new JPanel();
+            JButton select = new JButton();
+            select.setText("SELECT");
+            select.setSize(100, 50);
+            select.setHorizontalAlignment(JButton.CENTER);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -1467,27 +1480,46 @@ public class OrganizationFrame extends javax.swing.JFrame {
                     engine.close();
                 }
             });
-            // Create and embed Swing BrowserView component to display web content.
-            frame.addMouseListener(new MouseAdapter(){
-                public void MouseClicked(MouseEvent evt){
-                    System.out.println("center");
+            select.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
                     browser.focusedFrame().ifPresent(frame ->{
                         frame.document().ifPresent(document -> {
                             document.documentElement().ifPresent(documentElemnt ->
-                                    documentElemnt.findElementsById("map").forEach(element -> {                                     
-                                        System.out.println(element.attributeValue("center"));
-                                        lblAttractionLoc.setText(element.attributeValue("center"));
+                                    documentElemnt.findElementsByClassName("gm-style-iw-d").forEach(element -> {                                     
+                                        selectLocation = element.innerText();
+                                        lblAttractionLoc.setText(selectLocation);
                                     }));
                         });                  
                     });
+                    JOptionPane.showMessageDialog(null, "You have selected:"+selectLocation);
+                }
+            });
+            // Create and embed Swing BrowserView component to display web content.
+            select.addMouseListener(new MouseAdapter(){
+                public void MouseClicked(MouseEvent evt){
+                    
+                    
+
                 }
             
             });
-            frame.add(BrowserView.newInstance(browser),BorderLayout.CENTER);           
-            //panel.setSize(600,400);
-            frame.setSize(600, 400);
+            mapPanel.add(BrowserView.newInstance(browser),BorderLayout.CENTER);
+            mapPanel.setBounds(0, 0, 600, 400);
+            mapPanel.setSize(600, 400);
+ 
+            
+            buttonPanel.setBounds(0, 600, 600, 100);
+            buttonPanel.setLayout(new BorderLayout());
+            buttonPanel.setBackground(Color.blue);
+            //select.setBounds(250, 50, 50, 50);
+            buttonPanel.add(select,BorderLayout.CENTER );
+            frame.setSize(600, 650);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            frame.add(mapPanel);           
+            frame.add(buttonPanel); 
             //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             // Load the required web page.
             //browser.navigation().loadUrl("https://html5test.com/");

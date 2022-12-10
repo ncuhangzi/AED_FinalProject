@@ -62,10 +62,7 @@ public class EnterpriseAccount extends javax.swing.JFrame {
 
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/edit.png"))); // NOI18N
-
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
         jButton1.setText("Back");
 
         javax.swing.GroupLayout UpPanelLayout = new javax.swing.GroupLayout(UpPanel);

@@ -44,7 +44,25 @@
 				center: {lat: -34.397, lng: 150.644}
 			});
 			var geocoder = new google.maps.Geocoder();
+                        // Create the initial InfoWindow.
+                        let infoWindow = new google.maps.InfoWindow({
+                          content: "Click the map to get Lat/Lng!",
+                          position: {lat: -34.397, lng: 150.644},
+                        });
+                        infoWindow.open(map);
+                        map.addListener("click", (mapsMouseEvent) => {
+                            // Close the current InfoWindow.
+                            infoWindow.close();
 
+                            // Create a new InfoWindow.
+                            infoWindow = new google.maps.InfoWindow({
+                              position: mapsMouseEvent.latLng,
+                            });
+                            infoWindow.setContent(
+                              JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                            );
+                            infoWindow.open(map);
+                          });
 			document.getElementById('submit').addEventListener('click', function() {
 				geocodeAddress(geocoder, map);
 			});
