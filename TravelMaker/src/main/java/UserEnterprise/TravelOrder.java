@@ -4,40 +4,28 @@
  */
 package UserEnterprise;
 
-import static Enterprise.CreateTravel.tblTravel;
-import Enterprise.Enterprise;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-//import static Enterprise.EnterpriseInfo.tblEnterprise;
+
+import static UserEnterprise.TravelLike.tblTravelLike;
 import javax.swing.table.DefaultTableModel;
-import LoginPage.MyConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author yufei
  */
-public class TravelInfo extends javax.swing.JFrame {
+public class TravelOrder extends javax.swing.JFrame {
 
     /**
-     * Creates new form TravelInfo
+     * Creates new form TravelOrder
      */
     
     Travel travel = new Travel();
     DefaultTableModel model;
     
-    public TravelInfo() {
+    public TravelOrder() {
         initComponents();
-        travel.fillInfoJtable(tblTravel, "");
-        model = (DefaultTableModel)tblTravel.getModel();
+        
+        travel.fillOrderJtable(tblTravelOrder, "");
+        model = (DefaultTableModel)tblTravelOrder.getModel();
         
     }
 
@@ -51,30 +39,27 @@ public class TravelInfo extends javax.swing.JFrame {
     private void initComponents() {
 
         UpPanel = new javax.swing.JPanel();
-        lblTitle2 = new javax.swing.JLabel();
-        lblIcon2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         MidPanel = new javax.swing.JPanel();
-        txtSearch = new javax.swing.JTextField();
         lblSearch = new javax.swing.JLabel();
-        btnCollect = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
         BotPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblTravel = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblTravelOrder = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         UpPanel.setBackground(new java.awt.Color(250, 115, 12));
 
-        lblTitle2.setBackground(new java.awt.Color(0, 102, 204));
-        lblTitle2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        lblTitle2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTitle2.setText("           Travel Info");
+        lblTitle.setBackground(new java.awt.Color(0, 102, 204));
+        lblTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitle.setText("                                               Travel Order List");
 
-        lblIcon2.setSize(new java.awt.Dimension(40, 40));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/commodity.png"))); // NOI18N
+        lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         btnBack.setBackground(new java.awt.Color(250, 115, 12));
         btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
@@ -90,37 +75,36 @@ public class TravelInfo extends javax.swing.JFrame {
         UpPanelLayout.setHorizontalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(321, 321, 321)
-                .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(204, 204, 204)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(lblIcon2)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(btnBack)
+                .addGap(31, 31, 31)
+                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE))
+            .addGroup(UpPanelLayout.createSequentialGroup()
+                .addGap(366, 366, 366)
+                .addComponent(lblIcon)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         UpPanelLayout.setVerticalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpPanelLayout.createSequentialGroup()
                 .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UpPanelLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap()
+                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         MidPanel.setBackground(new java.awt.Color(0, 0, 0));
+
+        lblSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblSearch.setText("Search :");
 
         txtSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -129,42 +113,39 @@ public class TravelInfo extends javax.swing.JFrame {
             }
         });
 
-        lblSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
-        lblSearch.setText("Search :");
-
-        btnCollect.setText("Collect");
-        btnCollect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCollectActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(20, 20, 20)
                 .addComponent(lblSearch)
                 .addGap(38, 38, 38)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127)
-                .addComponent(btnCollect, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(485, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MidPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSearch)
-                    .addComponent(btnCollect, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(lblSearch))
+                .addGap(28, 28, 28))
         );
 
-        tblTravel.setModel(new javax.swing.table.DefaultTableModel(
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 988, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 620, Short.MAX_VALUE)
+        );
+
+        tblTravelOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -180,30 +161,37 @@ public class TravelInfo extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        tblTravel.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblTravelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTravelMouseClicked(evt);
+                tblTravelOrderMouseClicked(evt);
             }
         });
-        tblTravel.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblTravelOrder.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblTravelKeyReleased(evt);
+                tblTravelOrderKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblTravel);
+        jScrollPane2.setViewportView(tblTravelOrder);
 
         javax.swing.GroupLayout BotPanelLayout = new javax.swing.GroupLayout(BotPanel);
         BotPanel.setLayout(BotPanelLayout);
         BotPanelLayout.setHorizontalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BotPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1)
-                .addGap(0, 0, 0))
+            .addComponent(jScrollPane2)
+            .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(BotPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         BotPanelLayout.setVerticalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(BotPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,15 +205,14 @@ public class TravelInfo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -233,45 +220,13 @@ public class TravelInfo extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    int rowIndex;
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
-        travel.fillInfoJtable(tblTravel, txtSearch.getText());
-        
+        tblTravelOrder.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+        travel.fillOrderJtable(tblTravelOrder, txtSearch.getText());
     }//GEN-LAST:event_txtSearchKeyTyped
 
-    private void btnCollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectActionPerformed
-        
-        Connection con = MyConnection.getConnection();
-        PreparedStatement ps;
-            
-        try {
-            
-            ps = con.prepareStatement("INSERT INTO TravelLike(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-            ps.setLong(1, ID);
-            ps.setString(2, Organization);
-            ps.setString(3, City);
-            ps.setString(4, Type);
-            ps.setString(5, Attraction);
-            ps.setString(6, Location);
-            ps.setDouble(7, Cost);
-            ps.setDouble(8, Price);
-            ps.setString(9, Travel);
-            ps.setString(10,  startDate);
-            ps.setString(11, endDate);
-            ps.setString(12, Detail);
-                
-                if(ps.executeUpdate() > 0){
-                    JOptionPane.showMessageDialog(null, "New Enterprise Added!");
-                }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(TravelInfo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_btnCollectActionPerformed
-
+    int rowIndex;
     long ID;
     String Organization;
     String City;
@@ -284,11 +239,12 @@ public class TravelInfo extends javax.swing.JFrame {
     String Detail;
     String startDate;
     String endDate;
-    private void tblTravelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelMouseClicked
+    
+    private void tblTravelOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelOrderMouseClicked
         // TODO add your handling code here:
 
-        //        DefaultTableModel model = (DefaultTableModel)tblEnterprise.getModel();
-        rowIndex = tblTravel.getSelectedRow();
+        rowIndex = tblTravelOrder.getSelectedRow();
+
 
         ID = Long.parseLong(model.getValueAt(rowIndex, 0).toString());
         Organization = model.getValueAt(rowIndex, 1).toString();
@@ -302,27 +258,13 @@ public class TravelInfo extends javax.swing.JFrame {
         startDate = model.getValueAt(rowIndex, 9).toString();
         endDate = model.getValueAt(rowIndex, 10).toString();
         Detail = model.getValueAt(rowIndex, 11).toString();
-        
-        
-        
-        
-//        txtID.setText(model.getValueAt(rowIndex, 0).toString());
-//        jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
-//        jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
-//        jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
-//        jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-//        txtLocation.setText(model.getValueAt(rowIndex, 5).toString());
-//        txtCost.setText(model.getValueAt(rowIndex, 6).toString());
-//        txtPrice.setText(model.getValueAt(rowIndex, 7).toString());
-//        txtTravel.setText(model.getValueAt(rowIndex, 8).toString());
-//        
-//        txtDetail.setText(model.getValueAt(rowIndex, 11).toString());
-        
-    }//GEN-LAST:event_tblTravelMouseClicked
+    }//GEN-LAST:event_tblTravelOrderMouseClicked
 
-    private void tblTravelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelKeyReleased
-        // TODO add your handling code here
-    }//GEN-LAST:event_tblTravelKeyReleased
+    private void tblTravelOrderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelOrderKeyReleased
+        // TODO add your handling code here:
+
+        
+    }//GEN-LAST:event_tblTravelOrderKeyReleased
 
     /**
      * @param args the command line arguments
@@ -341,20 +283,20 @@ public class TravelInfo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TravelInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TravelOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TravelInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TravelOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TravelInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TravelOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TravelInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TravelOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TravelInfo().setVisible(true);
+                new TravelOrder().setVisible(true);
             }
         });
     }
@@ -364,13 +306,12 @@ public class TravelInfo extends javax.swing.JFrame {
     private javax.swing.JPanel MidPanel;
     private javax.swing.JPanel UpPanel;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnCollect;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblIcon2;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblSearch;
-    private javax.swing.JLabel lblTitle2;
-    public static javax.swing.JTable tblTravel;
+    private javax.swing.JLabel lblTitle;
+    public static javax.swing.JTable tblTravelOrder;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

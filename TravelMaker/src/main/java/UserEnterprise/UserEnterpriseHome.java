@@ -41,12 +41,14 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
         btnInfo = new javax.swing.JButton();
         btnAccount = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        btnLike = new javax.swing.JButton();
+        btnOrder = new javax.swing.JButton();
         BotPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        UpPanel2.setBackground(new java.awt.Color(51, 153, 255));
+        UpPanel2.setBackground(new java.awt.Color(250, 115, 12));
 
         lblTitle2.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -132,28 +134,64 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
             }
         });
 
+        btnLike.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        btnLike.setText("Like");
+        btnLike.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLikeMouseClicked(evt);
+            }
+        });
+        btnLike.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLikeActionPerformed(evt);
+            }
+        });
+
+        btnOrder.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        btnOrder.setText("Order");
+        btnOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOrderMouseClicked(evt);
+            }
+        });
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(80, 80, 80)
                 .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
-                .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLike, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(btnOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107))
+            .addGroup(MidPanelLayout.createSequentialGroup()
+                .addGap(196, 196, 196)
+                .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MidPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14))
+                    .addComponent(btnLike, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/Boston.jpg"))); // NOI18N
@@ -162,13 +200,13 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
         BotPanel.setLayout(BotPanelLayout);
         BotPanelLayout.setHorizontalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        BotPanelLayout.setVerticalGroup(
-            BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BotPanelLayout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
+        );
+        BotPanelLayout.setVerticalGroup(
+            BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,7 +224,7 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(BotPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -216,6 +254,32 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnLikeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLikeMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLikeMouseClicked
+
+    private void btnLikeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLikeActionPerformed
+        // TODO add your handling code here:
+        TravelLike TL = new TravelLike();
+        TL.setVisible(true);
+        TL.pack();
+        TL.setLocationRelativeTo(null);
+        
+    }//GEN-LAST:event_btnLikeActionPerformed
+
+    private void btnOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOrderMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOrderMouseClicked
+
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        // TODO add your handling code here:
+        TravelOrder TO = new TravelOrder();
+        TO.setVisible(true);
+        TO.pack();
+        TO.setLocationRelativeTo(null);
+        
+    }//GEN-LAST:event_btnOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,24 +320,16 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BotPanel;
     private javax.swing.JPanel MidPanel;
-    private javax.swing.JPanel UpPanel;
-    private javax.swing.JPanel UpPanel1;
     private javax.swing.JPanel UpPanel2;
     private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnInfo;
+    private javax.swing.JButton btnLike;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnOrder;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel lblIcon;
-    private javax.swing.JLabel lblIcon1;
     private javax.swing.JLabel lblIcon2;
-    private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblTitle2;
-    public static javax.swing.JLabel lblWelcome;
-    public static javax.swing.JLabel lblWelcome1;
     public static javax.swing.JLabel lblWelcome2;
     // End of variables declaration//GEN-END:variables
 }

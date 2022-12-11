@@ -5,6 +5,17 @@
 
 package Enterprise;
 
+import LoginPage.HomeLogin;
+import LoginPage.MyConnection;
+import UserEnterprise.TravelInfo;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author yufei
@@ -12,8 +23,50 @@ package Enterprise;
 public class EnterpriseMainHome extends javax.swing.JFrame {
 
     /** Creates new form EnterpriseMainHome */
-    public EnterpriseMainHome() {
+    
+    EnterpriseAccount EA = new EnterpriseAccount();
+    
+    public EnterpriseMainHome(){
+        
+    }
+    
+    public EnterpriseMainHome(String username, String password) {
         initComponents();
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        try {
+                
+                EA.txtName.setText(username);
+                EA.txtPassword.setText(password);
+                ps = con.prepareStatement("SELECT * FROM Enterpriseuser where username = '" + username + "' AND password = '" + password + "' ");
+            
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next()){
+                    
+                    
+//                    EnterpriseAccount.txtName.setText(rs.getString("username"));
+//                    EnterpriseAccount.txtPassword.setText(rs.getString("password"));
+                    EA.txtEname.setText(rs.getString("EnterpriseName"));
+                    EA.txtPhone.setText(rs.getString("Phone"));
+                    EA.txtID.setText(rs.getString("ID"));
+                    EA.txtEmail.setText(rs.getString("Email"));
+                    EA.txtLocation.setText(rs.getString("Location"));
+                    EA.txtIntrod.setText(rs.getString("Introduction"));
+                    
+                    
+                    this.dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
+                }
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(EnterpriseMainHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
     }
 
     /** This method is called from within the constructor to
@@ -34,12 +87,14 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
         btnInfo = new javax.swing.JButton();
         btnAccount = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        btnInfo1 = new javax.swing.JButton();
+        btnInfo2 = new javax.swing.JButton();
         BotPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        UpPanel.setBackground(new java.awt.Color(51, 153, 255));
+        UpPanel.setBackground(new java.awt.Color(250, 115, 12));
 
         lblTitle.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -64,13 +119,13 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
                         .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
                         .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpPanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(336, 336, 336)))
                 .addComponent(lblIcon)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         UpPanelLayout.setVerticalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +147,7 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
         MidPanel.setBackground(new java.awt.Color(51, 51, 51));
 
         btnInfo.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        btnInfo.setText("Information");
+        btnInfo.setText("Organization Information");
         btnInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInfoActionPerformed(evt);
@@ -125,69 +180,136 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
             }
         });
 
+        btnInfo1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        btnInfo1.setText("Create Travel");
+        btnInfo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfo1ActionPerformed(evt);
+            }
+        });
+
+        btnInfo2.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        btnInfo2.setText("Order Information");
+        btnInfo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfo2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123)
-                .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MidPanelLayout.createSequentialGroup()
+                        .addGap(221, 221, 221)
+                        .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(116, 116, 116)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MidPanelLayout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(btnInfo)
+                        .addGap(57, 57, 57)
+                        .addComponent(btnInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MidPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+            .addGroup(MidPanelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/Travel.png"))); // NOI18N
 
         javax.swing.GroupLayout BotPanelLayout = new javax.swing.GroupLayout(BotPanel);
         BotPanel.setLayout(BotPanelLayout);
         BotPanelLayout.setHorizontalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BotPanelLayout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         BotPanelLayout.setVerticalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BotPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 1, Short.MAX_VALUE)
         );
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/Travel.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(MidPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addComponent(BotPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInfo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfo1ActionPerformed
+        // TODO add your handling code here:
+        
+        CreateTravel CT = new CreateTravel();
+        CT.setVisible(true);
+        CT.pack();
+        CT.setLocationRelativeTo(null);
+        
+        
+        
+        
+    }//GEN-LAST:event_btnInfo1ActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutMouseClicked
+
+    private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
+        // TODO add your handling code here:
+
+        
+        EA.setVisible(true);
+        EA.pack();
+        EA.setLocationRelativeTo(null);
+
+    }//GEN-LAST:event_btnAccountActionPerformed
+
+    private void btnAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccountMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnAccountMouseClicked
 
     private void btnInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoActionPerformed
         // TODO add your handling code here:
@@ -197,29 +319,9 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
         EI.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInfoActionPerformed
 
-    private void btnAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccountMouseClicked
+    private void btnInfo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfo2ActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnAccountMouseClicked
-
-    private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
-        // TODO add your handling code here:
-        
-        EnterpriseAccount EA = new EnterpriseAccount();
-        EA.setVisible(true);
-        EA.pack();
-        EA.setLocationRelativeTo(null);
-        
-    }//GEN-LAST:event_btnAccountActionPerformed
-
-    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnLogoutMouseClicked
-
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogoutActionPerformed
+    }//GEN-LAST:event_btnInfo2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,6 +364,8 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
     private javax.swing.JPanel UpPanel;
     private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnInfo;
+    private javax.swing.JButton btnInfo1;
+    private javax.swing.JButton btnInfo2;
     private javax.swing.JButton btnLogout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

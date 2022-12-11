@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,13 +24,25 @@ public class EnterpriseAccountInfo {
         PreparedStatement ps;
         
         if(operation == 'u'){
-            
             try {
-                ps = con.prepareStatement("SELECT * FROM `Enterpriseuser` WHERE `username` = ?");
+                ps = con.prepareStatement("UPDATE `Enterpriseuser` SET `username`= ?, `password`= ?, `EnterpriseName`= ?, `Phone`= ?, `Email`= ?, `Location`= ?, `Introduction`= ? WHERE `ID` = ?");
                 
+                
+                ps.setString(1, Username);
+                ps.setString(2, Password);
+                ps.setString(3, EnterpriseName);
+                ps.setLong(4, Phone);
+                ps.setString(5, Email);
+                ps.setString(6,  Location);
+                ps.setString(7, Introduction);
+                ps.setLong(8, ID); 
+
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "Enterprise data Updated!");
+                }
                 
             } catch (SQLException ex) {
-                Logger.getLogger(EnterpriseAccountInfo.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }

@@ -4,6 +4,12 @@
  */
 package Enterprise;
 
+import static Enterprise.CreateTravel.tblTravel;
+import UserEnterprise.Travel;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yufei
@@ -29,7 +35,6 @@ public class EnterpriseAccount extends javax.swing.JFrame {
         UpPanel = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         lblIcon = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         MidPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -49,10 +54,12 @@ public class EnterpriseAccount extends javax.swing.JFrame {
         txtLocation = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtIntrod = new javax.swing.JTextArea();
+        jLabel9 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        UpPanel.setBackground(new java.awt.Color(51, 153, 255));
+        UpPanel.setBackground(new java.awt.Color(250, 115, 12));
 
         lblTitle.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -62,7 +69,8 @@ public class EnterpriseAccount extends javax.swing.JFrame {
 
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
-        jButton1.setBackground(new java.awt.Color(51, 153, 255));
+        jButton1.setBackground(new java.awt.Color(250, 115, 12));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
         jButton1.setText("Back");
 
         javax.swing.GroupLayout UpPanelLayout = new javax.swing.GroupLayout(UpPanel);
@@ -70,9 +78,7 @@ public class EnterpriseAccount extends javax.swing.JFrame {
         UpPanelLayout.setHorizontalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpPanelLayout.createSequentialGroup()
-                .addGap(347, 347, 347)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(443, 443, 443)
                 .addComponent(lblIcon)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(UpPanelLayout.createSequentialGroup()
@@ -90,9 +96,7 @@ public class EnterpriseAccount extends javax.swing.JFrame {
                     .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -186,6 +190,16 @@ public class EnterpriseAccount extends javax.swing.JFrame {
         txtIntrod.setRows(5);
         jScrollPane1.setViewportView(txtIntrod);
 
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("ID:");
+
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
@@ -200,18 +214,18 @@ public class EnterpriseAccount extends javax.swing.JFrame {
                     .addGroup(MidPanelLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel4))
-                        .addGap(34, 34, 34)
-                        .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(MidPanelLayout.createSequentialGroup()
                                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEname, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(MidPanelLayout.createSequentialGroup()
+                                        .addGap(144, 144, 144)
+                                        .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEname, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(MidPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(123, 123, 123)
+                                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(52, 52, 52)
                                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -226,8 +240,16 @@ public class EnterpriseAccount extends javax.swing.JFrame {
                                     .addGroup(MidPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addGap(31, 31, 31)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(79, Short.MAX_VALUE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(MidPanelLayout.createSequentialGroup()
+                                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel4))
+                                .addGap(34, 34, 34)
+                                .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,9 +278,13 @@ public class EnterpriseAccount extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -269,15 +295,21 @@ public class EnterpriseAccount extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(UpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(MidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(MidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -297,14 +329,26 @@ public class EnterpriseAccount extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        if (txtName.getText().equals("")||txtPassword.getText().equals("")||txtEname.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter all data!");
+        }
+        else{
+            String Username = txtName.getText();
+            String Password = txtPassword.getText();
+            String Enterprise_name = txtEname.getText();
+            long Phone = Long.parseLong(txtPhone.getText());
+            long ID = Long.parseLong(txtID.getText());
+            String Email = txtEmail.getText();
+            String Location = txtLocation.getText();
+            String Introduction = txtIntrod.getText();
+            
+            EnterpriseAccountInfo EAI = new EnterpriseAccountInfo();
+            EAI.UpdateEnterpriseAccount('u',ID, Username, Password, Enterprise_name, Phone, Email, Location, Introduction);
+
+                
+
+        }
         
-        String Username = txtName.getText();
-        String Password = txtPassword.getText();
-        String Enterprise_name = txtEname.getText();
-        long Phone = Long.parseLong(txtPhone.getText());
-        String Email = txtEmail.getText();
-        String Location = txtLocation.getText();
-        String Introduction = txtIntrod.getText();
         
         
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -324,6 +368,10 @@ public class EnterpriseAccount extends javax.swing.JFrame {
     private void txtLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLocationActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLocationActionPerformed
+
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -367,22 +415,23 @@ public class EnterpriseAccount extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtEname;
-    private javax.swing.JTextArea txtIntrod;
-    private javax.swing.JTextField txtLocation;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPhone;
+    public static javax.swing.JTextField txtEmail;
+    public static javax.swing.JTextField txtEname;
+    public static javax.swing.JTextField txtID;
+    public static javax.swing.JTextArea txtIntrod;
+    public static javax.swing.JTextField txtLocation;
+    public static javax.swing.JTextField txtName;
+    public static javax.swing.JTextField txtPassword;
+    public static javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

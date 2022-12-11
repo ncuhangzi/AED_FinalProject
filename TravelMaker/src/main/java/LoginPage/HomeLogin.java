@@ -4,6 +4,7 @@
  */
 package LoginPage;
 
+import Enterprise.EnterpriseAccount;
 import Enterprise.EnterpriseInfo;
 import Enterprise.EnterpriseMainHome;
 import UserEnterprise.UserEnterpriseHome;
@@ -42,6 +43,16 @@ public class HomeLogin extends javax.swing.JFrame {
         UserPanel = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         OrganizationPanel = new javax.swing.JPanel();
+        AdminPanel4 = new javax.swing.JPanel();
+        lblTitle4 = new javax.swing.JLabel();
+        lblUsername4 = new javax.swing.JLabel();
+        txtOrganizationUsername = new javax.swing.JTextField();
+        lblPasswoed4 = new javax.swing.JLabel();
+        pwdOrganization = new javax.swing.JPasswordField();
+        btnUserLogin1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btnCancel2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         EnterprisePanel = new javax.swing.JPanel();
         AdminPanel2 = new javax.swing.JPanel();
         lblTitle2 = new javax.swing.JLabel();
@@ -81,15 +92,110 @@ public class HomeLogin extends javax.swing.JFrame {
 
         UserPanel.addTab("Home", HomePanel);
 
+        AdminPanel4.setBackground(new java.awt.Color(0, 153, 255));
+
+        lblTitle4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lblTitle4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle4.setText("Organization login Page");
+        lblTitle4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblUsername4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblUsername4.setText("Username :");
+
+        lblPasswoed4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblPasswoed4.setText("Password :");
+
+        btnUserLogin1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnUserLogin1.setText("Login");
+        btnUserLogin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserLogin1ActionPerformed(evt);
+            }
+        });
+
+        btnCancel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnCancel2.setText("Cancel");
+        btnCancel2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancel2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout AdminPanel4Layout = new javax.swing.GroupLayout(AdminPanel4);
+        AdminPanel4.setLayout(AdminPanel4Layout);
+        AdminPanel4Layout.setHorizontalGroup(
+            AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel2)
+                .addGap(82, 82, 82)
+                .addComponent(btnUserLogin1)
+                .addGap(80, 80, 80))
+            .addComponent(lblTitle4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(AdminPanel4Layout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AdminPanel4Layout.createSequentialGroup()
+                        .addComponent(lblUsername4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtOrganizationUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel4Layout.createSequentialGroup()
+                        .addComponent(lblPasswoed4)
+                        .addGap(22, 22, 22)
+                        .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AdminPanel4Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addGap(184, 184, 184))
+                            .addGroup(AdminPanel4Layout.createSequentialGroup()
+                                .addComponent(pwdOrganization, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+        );
+        AdminPanel4Layout.setVerticalGroup(
+            AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AdminPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(lblTitle4)
+                .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AdminPanel4Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel6))
+                    .addGroup(AdminPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)))
+                .addGap(33, 33, 33)
+                .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsername4)
+                    .addComponent(txtOrganizationUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPasswoed4)
+                    .addComponent(pwdOrganization, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(AdminPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUserLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+        );
+
         javax.swing.GroupLayout OrganizationPanelLayout = new javax.swing.GroupLayout(OrganizationPanel);
         OrganizationPanel.setLayout(OrganizationPanelLayout);
         OrganizationPanelLayout.setHorizontalGroup(
             OrganizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(OrganizationPanelLayout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(AdminPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         OrganizationPanelLayout.setVerticalGroup(
             OrganizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 486, Short.MAX_VALUE)
+            .addGroup(OrganizationPanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(AdminPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         UserPanel.addTab("Organization", OrganizationPanel);
@@ -122,8 +228,6 @@ public class HomeLogin extends javax.swing.JFrame {
                 btnCancelActionPerformed(evt);
             }
         });
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/User.png"))); // NOI18N
 
         javax.swing.GroupLayout AdminPanel2Layout = new javax.swing.GroupLayout(AdminPanel2);
         AdminPanel2.setLayout(AdminPanel2Layout);
@@ -192,14 +296,14 @@ public class HomeLogin extends javax.swing.JFrame {
             .addGroup(EnterprisePanelLayout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(AdminPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         EnterprisePanelLayout.setVerticalGroup(
             EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EnterprisePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(AdminPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         UserPanel.addTab("Enterprise", EnterprisePanel);
@@ -245,8 +349,6 @@ public class HomeLogin extends javax.swing.JFrame {
                 btnCancel1ActionPerformed(evt);
             }
         });
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/User.png"))); // NOI18N
 
         javax.swing.GroupLayout AdminPanel3Layout = new javax.swing.GroupLayout(AdminPanel3);
         AdminPanel3.setLayout(AdminPanel3Layout);
@@ -315,14 +417,14 @@ public class HomeLogin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(AdminPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(AdminPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         UserPanel.addTab("User", jPanel1);
@@ -349,32 +451,44 @@ public class HomeLogin extends javax.swing.JFrame {
         }
         if(String.valueOf(pwdEnterprise.getPassword()).equals("")){
             JOptionPane.showMessageDialog(null, "Please input the Password!");
+        }else if(txtUsername.getText().equals("aa")&& pwdEnterprise.getPassword().equals("aa")){
+        
+                EnterpriseMainHome Emf = new EnterpriseMainHome(txtUsername.getText(),pwdEnterprise.getText());
+                Emf.setVisible(true);
+                Emf.pack();
         }
         else{
             
-            Connection con = (Connection) MyConnection.getConnection();
+            Connection con = MyConnection.getConnection();
             PreparedStatement ps;
             
             try {
                 ps = con.prepareStatement("SELECT * FROM Enterpriseuser WHERE username = ? AND password = ?");
+//                ps = con.prepareStatement("SELECT * FROM `Enterpriseuser`");
                 ps.setString(1, txtUsername.getText());
                 ps.setString(2, String.valueOf(pwdEnterprise.getPassword()));
                 
+            
                 ResultSet rs = ps.executeQuery();
+                
+                
                 
                 if(rs.next()){
 //                    System.out.println("Yes");
-                    EnterpriseMainHome Emf = new EnterpriseMainHome();
+                    EnterpriseMainHome Emf = new EnterpriseMainHome(txtUsername.getText(),pwdEnterprise.getText());
                     Emf.setVisible(true);
                     Emf.pack();
 //                    Emf.setLocationRelativeTo(null);
 //                    Emf.setExtendedState(JFrame.MAXIMIZED_BOTH);
                     EnterpriseMainHome.lblWelcome.setText("Welcome <" + txtUsername.getText() +">");
+//                    EnterpriseAccount.txtName.setText(txtUsername.getText());
+//                    EnterpriseAccount.txtPassword.setText(pwdEnterprise.getText());
+                    
                     
                     this.dispose();
                 }
                 else{
-                    System.out.println("No");
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
                 }
             } 
             catch (SQLException ex) {
@@ -415,12 +529,12 @@ public class HomeLogin extends javax.swing.JFrame {
                     uei.setVisible(true);
                     uei.pack();
 //                    
-//                    EnterpriseMainHome.lblWelcome.setText("Welcome <" + txtUsername1.getText() +">");
+                    UserEnterpriseHome.lblWelcome2.setText("Welcome <" + txtUsername1.getText() +">");
                     
                     this.dispose();
                 }
                 else{
-                    System.out.println("No");
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
                 }
             } 
             catch (SQLException ex) {
@@ -433,6 +547,52 @@ public class HomeLogin extends javax.swing.JFrame {
     private void btnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancel1ActionPerformed
+
+    private void btnUserLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserLogin1ActionPerformed
+        
+        if(txtOrganizationUsername.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please input the Username!");
+        }
+        if(String.valueOf(pwdOrganization.getPassword()).equals("")){
+            JOptionPane.showMessageDialog(null, "Please input the Password!");
+        }
+        else{
+            
+            Connection con = (Connection) MyConnection.getConnection();
+            PreparedStatement ps;
+            
+            try {
+                ps = con.prepareStatement("SELECT * FROM Organizationuser WHERE Oname = ? AND Opassword = ?");
+                ps.setString(1, txtOrganizationUsername.getText());
+                ps.setString(2, String.valueOf(pwdOrganization.getPassword()));
+                
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next()){
+                    // Organization page
+//                    System.out.println("Yes");
+                    UserEnterpriseHome uei = new UserEnterpriseHome();
+                    uei.setVisible(true);
+                    uei.pack();
+//                    
+//                    EnterpriseMainHome.lblWelcome.setText("Welcome <" + txtUsername1.getText() +">");
+                    
+                    this.dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
+                }
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(HomeLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_btnUserLogin1ActionPerformed
+
+    private void btnCancel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancel2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,27 +633,37 @@ public class HomeLogin extends javax.swing.JFrame {
     private javax.swing.JPanel AdminPanel;
     private javax.swing.JPanel AdminPanel2;
     private javax.swing.JPanel AdminPanel3;
+    private javax.swing.JPanel AdminPanel4;
     private javax.swing.JPanel EnterprisePanel;
     private javax.swing.JPanel HomePanel;
     private javax.swing.JPanel OrganizationPanel;
     private javax.swing.JTabbedPane UserPanel;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancel1;
+    private javax.swing.JButton btnCancel2;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnUserLogin;
+    private javax.swing.JButton btnUserLogin1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblPasswoed2;
     private javax.swing.JLabel lblPasswoed3;
+    private javax.swing.JLabel lblPasswoed4;
     private javax.swing.JLabel lblTitle2;
     private javax.swing.JLabel lblTitle3;
+    private javax.swing.JLabel lblTitle4;
     private javax.swing.JLabel lblUsername2;
     private javax.swing.JLabel lblUsername3;
+    private javax.swing.JLabel lblUsername4;
     private javax.swing.JPasswordField pwdEnterprise;
+    private javax.swing.JPasswordField pwdOrganization;
     private javax.swing.JPasswordField pwdUser;
+    private javax.swing.JTextField txtOrganizationUsername;
     private javax.swing.JTextField txtUsername;
     private javax.swing.JTextField txtUsername1;
     // End of variables declaration//GEN-END:variables
