@@ -128,6 +128,7 @@ public class EnterpriseInfo extends javax.swing.JFrame {
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         btnBack.setBackground(new java.awt.Color(250, 115, 12));
+        btnBack.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/back.png")); // NOI18N
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -583,7 +584,7 @@ public class EnterpriseInfo extends javax.swing.JFrame {
             String Enter_Name = txtName.getText();
             String Enter_City = txtCity.getText();
             String State = jcxState.getSelectedItem().toString();
-            int Zipcode = Integer.parseInt(txtZip.getText());
+            String Zipcode = txtZip.getText();
             String Location = txtLocation.getText();
             double Price = Double.parseDouble(txtPrice.getText());
 //            Date Start_Date = startDateChooser.getDate();
@@ -621,7 +622,7 @@ public class EnterpriseInfo extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "No Enterprise Selected");
         }else{
         long Enter_ID = Long.parseLong(txtID.getText());
-        etp.AddUpdateDeleteEnterprise('d', Enter_ID, null, null, null, 0, null, null,null, null, 0, null, null);
+        etp.AddUpdateDeleteEnterprise('d', Enter_ID, null, null, null, null, null, null,null, null, 0, null, null);
         etp.fillJtable(tblEnterprise, "");
         tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Organization","Price","Picture","Detail"}));
         etp.fillJtable(tblEnterprise, "");
@@ -677,7 +678,7 @@ public class EnterpriseInfo extends javax.swing.JFrame {
             String Enter_Name = txtName.getText();
             String Enter_City = txtCity.getText();
             String State = jcxState.getSelectedItem().toString();
-            int Zipcode = Integer.parseInt(txtZip.getText());
+            String Zipcode = txtZip.getText();
             String Location = txtLocation.getText();
             double Price = Double.parseDouble(txtPrice.getText());
 //            Date Start_Date = startDateChooser.getDate();

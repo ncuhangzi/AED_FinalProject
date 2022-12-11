@@ -6,6 +6,9 @@ package com.travelmaker.UI;
 
 import Enterprise.Enterprise;
 import static Enterprise.EnterpriseInfo.tblEnterprise;
+import Enterprise.EnterpriseMainHome;
+import LoginPage.MyConnection;
+import UserEnterprise.Travel;
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
@@ -29,6 +32,11 @@ import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,26 +72,102 @@ public class OrganizationFrame extends javax.swing.JFrame {
     String attractionImagePath;
     byte[] picture = null;
     String selectLocation;
+    String username;
+    String Password;
+    
+    OrganizationInfo oinfo = new OrganizationInfo();
+    Attraction AC = new Attraction();
+    
     /**
      * Creates new form MainJFrame
      */
     public OrganizationFrame(){
         initComponents();    
+        txtUID.setEditable(false);
         txtLocation.setEditable(false); //should move to component initialize method later
         this.setLocationRelativeTo(null);
         this.state = new State("Boston","12345");
-        roleSetting();
+        username = "Boston";
+        Password = "12345";
+        oinfo.fillJtable(accountTbl, "");
+        AC.fillJtable(tblAttraction, "");
+//        roleSetting();
+        
+        try{
+            
+            Connection con = MyConnection.getConnection();
+            Statement stm = con.createStatement();
+            
+            ResultSet rs = stm.executeQuery("SELECT `Cityname` FROM `OrganizationCity` ");
+            
+            while(rs.next()){
+                String City = rs.getString("Cityname");
+                cbCity.addItem(City);
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
-    public OrganizationFrame(State state, StateCatalog stateList) {
+    public OrganizationFrame(String Ousername, String password) {
         initComponents();
-        roleSetting();
-        this.state = state;
-        this.stateList = stateList;
+//        roleSetting();
+        txtUID.setEditable(false);
         this.setLocationRelativeTo(null);
-        usernameLabel.setText(state.getName()+" Administrator");
-        populateAttractionTbl();
-        populateAccountTable();
+        oinfo.fillJtable(accountTbl, "");
+        AC.fillJtable(tblAttraction, "");
+        username = Ousername;
+        Password = password;
+
+        
+        try{
+            
+            Connection con = MyConnection.getConnection();
+            Statement stm = con.createStatement();
+            
+            ResultSet rs = stm.executeQuery("SELECT `Cityname` FROM `OrganizationCity` ");
+            
+            while(rs.next()){
+                String City = rs.getString("Cityname");
+                cbCity.addItem(City);
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        try{
+                
+                txtState.setText(username);
+                txtStatePass.setText(password);
+                ps = con.prepareStatement("SELECT * FROM Organizationuser where Oname = '" + username + "' AND Opassword = '" + password + "' ");
+            
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next()){
+                    
+
+                    txtAdmit.setText(rs.getString("Oadmitted"));
+                    cbLang.setSelectedItem(rs.getString("Olanguage"));
+                    
+
+                    this.dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
+                }
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(EnterpriseMainHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
     }
     
     public char[] randomIdGenerator(int len){
@@ -96,18 +180,18 @@ public class OrganizationFrame extends javax.swing.JFrame {
         return idarray;
     }
     
-    public void roleSetting(){
-        String role = "State Manager";
-        txtMayor.setEditable(false);
-        if(role.equals("City Manager")){
-            jTabbedPane.setEnabledAt(1, false);      
-        }else if (role.equals("State Manager")){
-            txtState.setText(state.getName());
-            txtStatePass.setText(state.getPassword());
-        }
-
-    
-    }
+//    public void roleSetting(){
+//        String role = "State Manager";
+////        txtMayor.setEditable(false);
+//        if(role.equals("City Manager")){
+//            jTabbedPane.setEnabledAt(1, false);      
+//        }else if (role.equals("State Manager")){
+//            txtState.setText(state.getName());
+//            txtStatePass.setText(state.getPassword());
+//        }
+//
+//    
+//    }
     
     private void populateAttractionTbl() {
        
@@ -179,11 +263,10 @@ public class OrganizationFrame extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         jTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        JPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAttraction = new javax.swing.JTable();
         lblType = new javax.swing.JLabel();
-        lblAttractionId = new javax.swing.JLabel();
         lblPrice = new javax.swing.JLabel();
         lblAttPhoto = new javax.swing.JLabel();
         createBtn = new javax.swing.JButton();
@@ -200,12 +283,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lblAttractionImage = new javax.swing.JLabel();
         lblCity = new javax.swing.JLabel();
         cbCity = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
-        cityLbl = new javax.swing.JLabel();
-        cityTxt = new javax.swing.JTextField();
-        createciBtn = new javax.swing.JButton();
-        updateciBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblPrice1 = new javax.swing.JLabel();
+        lblAttractionId = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         accountTbl = new javax.swing.JTable();
@@ -230,6 +309,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
         btnCityBrowse = new javax.swing.JButton();
         lblCityImage = new javax.swing.JLabel();
         btnChooseLocation = new javax.swing.JButton();
+        txtUID = new javax.swing.JTextField();
+        lblCityName1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         txtStatePass = new javax.swing.JTextField();
         txtState = new javax.swing.JTextField();
@@ -322,14 +403,11 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         jTabbedPane.setBackground(new java.awt.Color(250, 115, 12));
 
-        jPanel2.setBackground(new java.awt.Color(52, 73, 94));
+        JPanel2.setBackground(new java.awt.Color(52, 73, 94));
 
         tblAttraction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "UID", "Name", "Type", "City", "Cost", "Location"
@@ -345,9 +423,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lblType.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
         lblType.setForeground(new java.awt.Color(228, 241, 254));
         lblType.setText("Type:");
-
-        lblAttractionId.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
-        lblAttractionId.setForeground(new java.awt.Color(228, 241, 254));
 
         lblPrice.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
         lblPrice.setForeground(new java.awt.Color(228, 241, 254));
@@ -418,160 +493,126 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lblCity.setForeground(new java.awt.Color(228, 241, 254));
         lblCity.setText("City:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        lblPrice1.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
+        lblPrice1.setForeground(new java.awt.Color(228, 241, 254));
+
+        lblAttractionId.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
+        lblAttractionId.setForeground(new java.awt.Color(228, 241, 254));
+
+        javax.swing.GroupLayout JPanel2Layout = new javax.swing.GroupLayout(JPanel2);
+        JPanel2.setLayout(JPanel2Layout);
+        JPanel2Layout.setHorizontalGroup(
+            JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAttractionId, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblType, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblAttractionName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(deleteBtn)
-                            .addComponent(lblAttPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPanel2Layout.createSequentialGroup()
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblAtLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                            .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAttractionBrowse)
-                            .addComponent(btnAttractionLocation)
-                            .addComponent(lblAttractionLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAttractionImage, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(updateBtn)
-                                .addGap(40, 40, 40)
-                                .addComponent(createBtn))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblCity, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(btnAttractionLocation))
+                        .addGap(138, 138, 138))
+                    .addGroup(JPanel2Layout.createSequentialGroup()
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JPanel2Layout.createSequentialGroup()
+                                .addComponent(lblAttPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(49, 49, 49)
+                                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAttractionBrowse)
+                                    .addComponent(lblAttractionLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(JPanel2Layout.createSequentialGroup()
+                                        .addComponent(updateBtn)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(createBtn))))
+                            .addGroup(JPanel2Layout.createSequentialGroup()
+                                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(JPanel2Layout.createSequentialGroup()
+                                        .addComponent(lblAttractionName, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(JPanel2Layout.createSequentialGroup()
+                                        .addComponent(deleteBtn)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(lblAttractionImage, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblPrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(43, 43, 43))
+                    .addGroup(JPanel2Layout.createSequentialGroup()
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JPanel2Layout.createSequentialGroup()
+                                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblCity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblType, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbCity, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblAttractionId, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        JPanel2Layout.setVerticalGroup(
+            JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(lblPrice1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblAttractionId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAttractionName))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(JPanel2Layout.createSequentialGroup()
+                        .addComponent(lblAttractionId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblAttractionName)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblType)
                             .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(18, 18, 18)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCity)
                             .addComponent(cbCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblPrice))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAttractionLocation)
                             .addComponent(lblAtLocation))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAttractionLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAttractionBrowse)
                             .addComponent(lblAttPhoto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAttractionImage, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(JPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(updateBtn)
                             .addComponent(createBtn)
                             .addComponent(deleteBtn))
                         .addGap(22, 22, 22))))
         );
 
-        jTabbedPane.addTab("Attractions", jPanel2);
-
-        jPanel3.setBackground(new java.awt.Color(52, 73, 94));
-
-        cityLbl.setFont(new java.awt.Font("Hiragino Sans", 0, 14)); // NOI18N
-        cityLbl.setForeground(new java.awt.Color(228, 241, 254));
-        cityLbl.setText("City:");
-
-        cityTxt.setBackground(new java.awt.Color(106, 122, 137));
-        cityTxt.setForeground(new java.awt.Color(228, 241, 254));
-
-        createciBtn.setBackground(new java.awt.Color(250, 115, 12));
-        createciBtn.setText("Create City");
-
-        updateciBtn.setBackground(new java.awt.Color(129, 207, 224));
-        updateciBtn.setText("Update City");
-
-        jButton2.setBackground(new java.awt.Color(171, 183, 183));
-        jButton2.setText("Refresh");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cityLbl)
-                    .addComponent(cityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(createciBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(updateciBtn))
-                    .addComponent(jButton2))
-                .addContainerGap(719, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(cityLbl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createciBtn)
-                    .addComponent(updateciBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(46, 46, 46))
-        );
-
-        jTabbedPane.addTab("Statistics", jPanel3);
+        jTabbedPane.addTab("Attractions", JPanel2);
 
         jPanel4.setBackground(new java.awt.Color(52, 73, 94));
 
         accountTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "City", "Password", "Mayor", "Level", "ZIP", "Population", "Location"
+                "UID", "City", "Password", "Mayor", "Level", "ZIP", "Population", "Location"
             }
         ));
         accountTbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -642,6 +683,11 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         txtMayor.setBackground(new java.awt.Color(106, 122, 137));
         txtMayor.setForeground(new java.awt.Color(228, 241, 254));
+        txtMayor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMayorActionPerformed(evt);
+            }
+        });
 
         lblMayor.setFont(new java.awt.Font("Hiragino Sans", 0, 13)); // NOI18N
         lblMayor.setForeground(new java.awt.Color(228, 241, 254));
@@ -676,70 +722,85 @@ public class OrganizationFrame extends javax.swing.JFrame {
             }
         });
 
+        txtUID.setBackground(new java.awt.Color(106, 122, 137));
+        txtUID.setForeground(new java.awt.Color(228, 241, 254));
+
+        lblCityName1.setFont(new java.awt.Font("Hiragino Sans", 0, 13)); // NOI18N
+        lblCityName1.setForeground(new java.awt.Color(228, 241, 254));
+        lblCityName1.setText("UID:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(accDeleteBtn)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblLevel)
+                                .addComponent(cbLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(32, 32, 32)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblZip)
+                                .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(9, 9, 9))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                    .addGap(128, 128, 128)
+                                    .addComponent(accUpdateBtn))
+                                .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 33, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCityName)
+                            .addComponent(txtCityName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPassword)))
+                    .addComponent(lblLocation))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(accDeleteBtn)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblLevel)
-                                        .addComponent(cbLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(32, 32, 32)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblZip)
-                                        .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(9, 9, 9))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                            .addGap(128, 128, 128)
-                                            .addComponent(accUpdateBtn))
-                                        .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(0, 0, Short.MAX_VALUE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCityName)
-                                    .addComponent(txtCityName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(32, 32, 32)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPassword)))
-                            .addComponent(lblLocation))
+                            .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMayor)
+                            .addComponent(lblPopulation)
+                            .addComponent(txtPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addComponent(accCreateBtn)
-                                .addGap(87, 87, 87))
+                                .addComponent(lblCityName1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblMayor)
-                                    .addComponent(lblPopulation)
-                                    .addComponent(txtPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(txtUID, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(accCreateBtn)
+                        .addGap(46, 46, 46)))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnChooseLocation)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(94, 94, 94)
-                                    .addComponent(lblCityImage, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(lblPhoto)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnCityBrowse))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addGap(94, 94, 94)
+                        .addComponent(lblCityImage, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblPhoto)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCityBrowse))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(btnChooseLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,11 +835,14 @@ public class OrganizationFrame extends javax.swing.JFrame {
                             .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(lblLocation)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLocation)
+                            .addComponent(lblCityName1))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnChooseLocation))
+                            .addComponent(btnChooseLocation)
+                            .addComponent(txtUID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPhoto)
@@ -869,7 +933,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                             .addComponent(cbLang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(139, 139, 139)
                         .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -913,12 +977,12 @@ public class OrganizationFrame extends javax.swing.JFrame {
                         .addComponent(welcomeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(usernameLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(867, Short.MAX_VALUE))
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 932, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1022, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(logoutBtn))
-                        .addGap(0, 106, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -928,7 +992,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                     .addComponent(welcomeLabel)
                     .addComponent(usernameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(logoutBtn)
                 .addGap(17, 17, 17))
@@ -974,178 +1038,11 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_logoutBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        int selectedRowIndex = tblAttraction.getSelectedRow();
-
-        if (selectedRowIndex<0) {
-            JOptionPane.showMessageDialog(this, "Please select a row to view.");
-            return;
-        }
-
-        DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
-        Attraction selectattraction = (Attraction)model.getValueAt(selectedRowIndex, 0);
-
-        String cname = cbCity.getSelectedItem().toString();
-        City city = state.findCity(cname);
-        
-        
-        selectattraction.AddUpdateDeleteAttraction('d', selectattraction.getUid(), selectattraction.getName(), selectattraction.getLocation(), selectattraction.getCost(), selectattraction.getType(), cname, state.getName(), picture);
-
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
-        selectattraction.fillJtable(tblAttraction, "");
-        
-        city.deleteAttraction(selectattraction);
-
-        JOptionPane.showMessageDialog(this, "Attraction deleted.");
-
-        //populateAttractionTbl(); //refresh the table
-        //clear the textfields below
-        txtName.setText("");
-        txtPrice.setText("");
-        cbType.setSelectedIndex(0);
-        cbCity.setSelectedIndex(0);
-        lblAttractionLoc.setText("");
-        lblAttractionId.setText("");
-        lblAttractionImage.setIcon(null);
-
-    }//GEN-LAST:event_deleteBtnActionPerformed
-
-    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        int selectedRowIndex = tblAttraction.getSelectedRow();
-
-        if (selectedRowIndex<0) {
-            JOptionPane.showMessageDialog(this, "Please select a row to view.");
-            return;
-        }
-
-        DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
-        Attraction selectattraction = (Attraction)model.getValueAt(selectedRowIndex, 0);
-        
-        String cname = cbCity.getSelectedItem().toString();
-        String aname = txtName.getText();
-        City city = state.findCity(cname);
-        double cost = Double.parseDouble(txtPrice.getText());
-        String type = cbType.getSelectedItem().toString();
-        //create a new attraction 
-        if(!city.isExisted(selectattraction.getUid())){
-            String uid = null;     
-            do{
-                uid = String.valueOf(randomIdGenerator(8));
-            }while(city.isExisted(uid));
-            Attraction attraction = city.newAttraction(aname, uid, cbType.getSelectedItem().toString());
-            attraction.setType(cbType.getSelectedItem().toString());
-            attraction.setCost(Double.parseDouble(txtPrice.getText()));
-            attraction.setImagePath(attractionImagePath);
-            attraction.setLocation(lblAttractionLoc.getText());
-            lblAttractionId.setText(uid);
-            populateAttractionTbl(); 
-            return;
-        }
-        selectattraction.setName(aname);
-        selectattraction.setType(cbType.getSelectedItem().toString());
-        selectattraction.setCost(Double.parseDouble(txtPrice.getText()));
-        selectattraction.setImagePath(attractionImagePath);
-        selectattraction.setLocation(lblAttractionLoc.getText());
-        lblAttractionId.setText(selectattraction.getUid());
-        
-        selectattraction.AddUpdateDeleteAttraction('u', selectattraction.getUid(), aname, lblAttractionLoc.getText(), cost, type, cname, state.getName(), picture);
-
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","State","Type","City","Cost","Location","Image","Attraction"}));
-        selectattraction.fillJtable(tblAttraction, "");
-
-        
-        //populateAttractionTbl(); //refresh the table
-    }//GEN-LAST:event_updateBtnActionPerformed
-
-    private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
-        String aname = txtName.getText();
-        String type = cbType.getSelectedItem().toString();
-        String city = cbCity.getSelectedItem().toString();
-        String location = lblAttractionLoc.getText();
-        String attractionImagePath = this.attractionImagePath;
-        double price = Double.valueOf(txtPrice.getText());
-        String uid = "123";
-                
-        if("".equals(aname)){
-            JOptionPane.showMessageDialog(null, "Attraction name is required");
-            return;
-        }
-        
-        City selectcity = state.findCity(city);
-        do{
-            uid = String.valueOf(randomIdGenerator(8));
-        }while(selectcity.isExisted(uid));
-        
-        Attraction newattraction = selectcity.newAttraction(aname, uid, type);
-        
-        newattraction.setName(aname);
-        newattraction.setUid(uid);
-        newattraction.setCost(price);
-        newattraction.setImagePath(attractionImagePath);
-        newattraction.setLocation(location);
-        newattraction.setType(type);
-        
-        newattraction.AddUpdateDeleteAttraction('i', uid, aname, location, price, type, city, state.getName(), picture);
-
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
-        newattraction.fillJtable(tblAttraction, "");
-
-        txtName.setText("");
-        txtPrice.setText("");
-        lblAttractionId.setText("");
-        lblAttractionImage.setIcon(null);
-        //populateAttractionTbl();
-
-    }//GEN-LAST:event_createBtnActionPerformed
-
-    private void tblAttractionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAttractionMouseClicked
-        int selectedRowIndex = tblAttraction.getSelectedRow();
-
-        if (selectedRowIndex<0) {
-            JOptionPane.showMessageDialog(this, "Please select a row to view.");
-            return;
-        }
-
-        DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
-        Attraction selectattraction = (Attraction)model.getValueAt(selectedRowIndex, 0);
-        City selectcity = (City)model.getValueAt(selectedRowIndex, 3);
-        txtName.setText(selectattraction.getName());
-        txtPrice.setText(String.valueOf(selectattraction.getCost()));
-        lblAttractionLoc.setText(selectattraction.getLocation());
-        if(selectattraction.getType() == "Show"){
-            cbType.setSelectedIndex(0);
-        }else if(selectattraction.getType() == "Tour"){
-            cbType.setSelectedIndex(1);
-        }else if(selectattraction.getType() == "Restaurant"){
-            cbType.setSelectedIndex(2);
-        }
-        for(int i=0;i<cbCity.getItemCount();i++){
-            if(selectcity.getName() == cbCity.getItemAt(i)){
-                cbCity.setSelectedIndex(i);
-            }
-        }
-
-        
-        lblAttractionId.setText(selectattraction.getUid());
-        this.attractionImagePath = selectattraction.getImagePath();
-        if(attractionImagePath==""){
-            lblAttractionImage.setIcon(null);
-        }else{
-            ImageIcon ii = new ImageIcon(attractionImagePath);
-            Image img = ii.getImage().getScaledInstance(lblAttractionImage.getWidth(), lblAttractionImage.getHeight(), Image.SCALE_SMOOTH);
-            lblAttractionImage.setIcon(new ImageIcon(img));
-        }
-
-    }//GEN-LAST:event_tblAttractionMouseClicked
-
     private void btnStateUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStateUpdateActionPerformed
-
+        long uid = Long.parseLong(lblAttractionId.getText());
         String name = txtState.getText();
         String password = txtStatePass.getText();
+        String language = cbLang.getSelectedItem().toString();
         String admit = txtAdmit.getText();
         if("".equals(name)){
             JOptionPane.showMessageDialog(null, "Name is required");
@@ -1157,6 +1054,9 @@ public class OrganizationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Admitted Date is required");
             return;
         }
+        
+        OrganizationProfile op = new OrganizationProfile();
+        op.UpdateOrganizationUserAccount('u', uid, name, password, language, admit, picture);
 //        //Display image on jlabel
 //        ImageIcon ii = new ImageIcon(stateImagepath);
 //        //Resize image to fit the label
@@ -1164,14 +1064,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 //        lblImage.setIcon(new ImageIcon(img));
 //                      
         
-        state.AddUpdateDeleteOrganziation('u', name, password, cbLang.getSelectedItem().toString(), admit, picture);
-         
-        this.state.setName(name);
-        this.state.setPassword(password);
-        this.state.setAdmitted(admit);
-        this.state.setLanguage(cbLang.getSelectedItem().toString());
-        this.state.setImagePath(stateImagepath);
-        JOptionPane.showMessageDialog(null, "Profile Updated!");
+        
     }//GEN-LAST:event_btnStateUpdateActionPerformed
 
     private void txtLocationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLocationKeyPressed
@@ -1186,17 +1079,19 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
     private void accDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accDeleteBtnActionPerformed
         int selectedRowIndex = accountTbl.getSelectedRow();
-
+        long uid = Long.parseLong(txtUID.getText()); 
         if (selectedRowIndex<0) {
             JOptionPane.showMessageDialog(this, "Please select a row to view.");
             return;
         }
         DefaultTableModel model = (DefaultTableModel) accountTbl.getModel();
-        City selectcity = (City)model.getValueAt(selectedRowIndex, 0);
-        
-        state.deleteCity(selectcity); 
 
-        JOptionPane.showMessageDialog(this, "City deleted.");
+        
+        oinfo.AddUpdateDeleteEnterprise('d', uid, null, null, null, null, null, null, null, null);
+        oinfo.fillJtable(accountTbl, "");
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        oinfo.fillJtable(accountTbl, "");
+//        JOptionPane.showMessageDialog(this, "City deleted.");
 
         txtCityName.setText("");
         txtPassword.setText("");
@@ -1206,7 +1101,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         txtPopulation.setText("");
         cbLevel.setSelectedIndex(0);
         lblCityImage.setIcon(null);
-        populateAccountTable();
     }//GEN-LAST:event_accDeleteBtnActionPerformed
 
     private void accUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accUpdateBtnActionPerformed
@@ -1218,6 +1112,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         String zipCode = txtZIP.getText();
         String cityImagePath = this.cityImagePath;
         String level = cbLevel.getSelectedItem().toString();
+        long uid = Long.parseLong(txtUID.getText());    
         if("".equals(name)){
             JOptionPane.showMessageDialog(null, "City name is required");
             return;
@@ -1226,7 +1121,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
             return;
         }
         
-        String PATTERN = "^[0-9]{0,5}[-][0-9]{0,5}$";
+        String PATTERN = "^[0-9]{0,5}$";
         Pattern patt = Pattern.compile(PATTERN);
         Matcher match = patt.matcher(zipCode);
 
@@ -1242,34 +1137,11 @@ public class OrganizationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Population only allowed numbers!");
             return;
         }
-
-        int selectedRowIndex = accountTbl.getSelectedRow();
-
-        if (selectedRowIndex<0) {
-            JOptionPane.showMessageDialog(this, "Please select a row to view.");
-            return;
-        }
-        DefaultTableModel model = (DefaultTableModel) accountTbl.getModel();
-        City selectcity = (City)model.getValueAt(selectedRowIndex, 0);
-
-        if(state.isExisted(name)){
-            if(!name.equals(selectcity.getName())){
-                JOptionPane.showMessageDialog(null, "City already existed!");
-                return;
-            }
-        }
-
-
-        selectcity.setName(name);
-        selectcity.setPassword(password);
-        selectcity.setLevel(level);
-        selectcity.setLocation(location);
-        selectcity.setMayor(mayor);
-        selectcity.setPopulation(population);
-        selectcity.setImagePath(cityImagePath);
-        selectcity.setZipCode(zipCode);
-
-        populateAccountTable();
+        
+        OrganizationInfo OI = new OrganizationInfo();
+        OI.AddUpdateDeleteEnterprise('u', uid, name, password, mayor, level, zipCode, population, location, picture);
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        OI.fillJtable(accountTbl,"");
     }//GEN-LAST:event_accUpdateBtnActionPerformed
 
     private void accCreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accCreateBtnActionPerformed
@@ -1281,6 +1153,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         String zipCode = txtZIP.getText();
         String cityImagePath = this.cityImagePath;
         String level = cbLevel.getSelectedItem().toString();
+        long uid = Long.parseLong(String.valueOf(randomIdGenerator(8)));
         if("".equals(name)){
             JOptionPane.showMessageDialog(null, "City name is required");
             return;
@@ -1288,8 +1161,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Password is required");
             return;
         }
-
-        String PATTERN = "^[0-9]{0,5}[-][0-9]{0,5}$";
+        
+        String PATTERN = "^[0-9]{0,5}$";
         Pattern patt = Pattern.compile(PATTERN);
         Matcher match = patt.matcher(zipCode);
 
@@ -1312,16 +1185,11 @@ public class OrganizationFrame extends javax.swing.JFrame {
             return;
         }
 
-        City newcity = state.newCity(name, password);
-
-        newcity.setName(name);
-        newcity.setPassword(password);
-        newcity.setLevel(level);
-        newcity.setLocation(location);
-        newcity.setMayor(mayor);
-        newcity.setPopulation(population);
-        newcity.setImagePath(cityImagePath);
-        newcity.setZipCode(zipCode);
+        OrganizationInfo OI = new OrganizationInfo();
+        OI.AddUpdateDeleteEnterprise('i', uid, name, password, mayor, level, zipCode, population, location, picture); 
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        OI.fillJtable(accountTbl, "");
+        
 
         txtCityName.setText("");
         txtPassword.setText("");
@@ -1331,7 +1199,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         txtPopulation.setText("");
         cbLevel.setSelectedIndex(0);
         lblCityImage.setIcon(null);
-        populateAccountTable();
     }//GEN-LAST:event_accCreateBtnActionPerformed
 
     private void accountTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountTblMouseClicked
@@ -1343,35 +1210,15 @@ public class OrganizationFrame extends javax.swing.JFrame {
         }
 
         DefaultTableModel model = (DefaultTableModel) accountTbl.getModel();
-        City selectcity = (City)model.getValueAt(selectedRowIndex, 0);
-
-        txtCityName.setText(selectcity.getName());
-        txtPassword.setText(selectcity.getPassword());
-        txtMayor.setText(selectcity.getMayor());
-        txtLocation.setText(selectcity.getLocation());
-        txtZIP.setText(selectcity.getZipCode());
-        txtPopulation.setText(selectcity.getPopulation());
-        this.cityImagePath = selectcity.getImagePath();
-        if(null != selectcity.getLevel())switch (selectcity.getLevel()) {
-            case "First-Level" -> {
-                cbLevel.setSelectedIndex(0);
-            }
-            case "Second-Level" -> {
-                cbLevel.setSelectedIndex(1);
-            }
-            case "Third-Level" -> {
-                cbLevel.setSelectedIndex(2);
-            }
-            default -> {
-            }
-        }
-        if(this.cityImagePath == ""){
-            lblCityImage.setIcon(null);
-        }else{
-            ImageIcon ii = new ImageIcon(cityImagePath);
-            Image img = ii.getImage().getScaledInstance(lblCityImage.getWidth(), lblCityImage.getHeight(), Image.SCALE_SMOOTH);
-            lblCityImage.setIcon(new ImageIcon(img));      
-        }
+       
+        txtUID.setText(model.getValueAt(selectedRowIndex, 0).toString());
+        txtCityName.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        txtPassword.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        txtMayor.setText(model.getValueAt(selectedRowIndex, 3).toString());
+        txtLocation.setText(model.getValueAt(selectedRowIndex, 7).toString());
+        txtZIP.setText(model.getValueAt(selectedRowIndex, 5).toString());
+        txtPopulation.setText(model.getValueAt(selectedRowIndex, 6).toString());
+        cbLevel.setSelectedItem(model.getValueAt(selectedRowIndex, 4).toString());
 
 
     }//GEN-LAST:event_accountTblMouseClicked
@@ -1418,6 +1265,134 @@ public class OrganizationFrame extends javax.swing.JFrame {
         lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }//GEN-LAST:event_btnChooseLocationActionPerformed
 
+    private void btnCityBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCityBrowseActionPerformed
+        JFileChooser browseImageFile = new JFileChooser();
+        //Filter image extensions
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+        browseImageFile.addChoosableFileFilter(fnef);
+        int showOpenDialogue = browseImageFile.showOpenDialog(null);
+//        try{
+//            if(showOpenDialogue == JFileChooser.APPROVE_OPTION){
+//                File selectedImageFile = browseImageFile.getSelectedFile();
+//                String selectedImagePath = selectedImageFile.getAbsolutePath();
+//                this.cityImagePath = selectedImagePath;
+//                JOptionPane.showMessageDialog(null, "You are now selecting "+selectedImagePath);
+//                //Display image on jlabel
+//                ImageIcon ii = new ImageIcon(selectedImagePath);
+//                //Resize image to fit the label
+//                Image img = ii.getImage().getScaledInstance(lblCityImage.getWidth(), lblCityImage.getHeight(), Image.SCALE_SMOOTH);
+//
+//                lblCityImage.setIcon(new ImageIcon(img));
+//               
+//                }
+//        }catch(Exception e){
+//            JOptionPane.showMessageDialog(null, e);    
+//        }
+        
+        try{
+            if(showOpenDialogue == JFileChooser.APPROVE_OPTION){
+                File selectedImageFile = browseImageFile.getSelectedFile();
+                String selectedImagePath = selectedImageFile.getAbsolutePath();
+                this.cityImagePath = selectedImagePath;
+                JOptionPane.showMessageDialog(null, "You are now selecting "+selectedImagePath);
+                FileInputStream fis = new FileInputStream(selectedImageFile);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                for(int readNum; (readNum = fis.read(buf))!=-1;){
+                    bos.write(buf, 0, readNum);
+                }
+                picture = bos.toByteArray();
+                //Display image on jlabel
+                ImageIcon ii = new ImageIcon(selectedImagePath);
+                //Resize image to fit the label
+                Image img = ii.getImage().getScaledInstance(lblCityImage.getWidth(), lblCityImage.getHeight(), Image.SCALE_SMOOTH);
+
+                lblCityImage.setIcon(new ImageIcon(img));
+               
+                }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);    
+        }
+    }//GEN-LAST:event_btnCityBrowseActionPerformed
+
+    private void txtMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMayorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMayorActionPerformed
+
+    private void btnAttractionLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttractionLocationActionPerformed
+        //        LocationPicker lcp = new LocationPicker();
+        //        lcp.setVisible(true);
+        //        lcp.pack();
+        //        lcp.setLocationRelativeTo(null);
+        //        lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Initialize Chromium.
+        Engine engine = Engine.newInstance(
+            EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+            .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
+            .build());
+
+        // Create a Browser instance.
+        Browser browser = engine.newBrowser();
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Location Picker");
+            JPanel mapPanel = new JPanel();
+            JPanel buttonPanel = new JPanel();
+            JButton select = new JButton();
+            select.setText("SELECT");
+            select.setSize(100, 50);
+            select.setHorizontalAlignment(JButton.CENTER);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    // Shutdown Chromium and release allocated resources.
+                    engine.close();
+                }
+            });
+            select.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    browser.focusedFrame().ifPresent(frame ->{
+                        frame.document().ifPresent(document -> {
+                            document.documentElement().ifPresent(documentElemnt ->
+                                documentElemnt.findElementsByClassName("gm-style-iw-d").forEach(element -> {
+                                    selectLocation = element.innerText();
+                                    lblAttractionLoc.setText(selectLocation);
+                                }));
+                            });
+                        });
+                        JOptionPane.showMessageDialog(null, "You have selected:"+selectLocation);
+                    }
+                });
+                // Create and embed Swing BrowserView component to display web content.
+                select.addMouseListener(new MouseAdapter(){
+                    public void MouseClicked(MouseEvent evt){
+
+                    }
+
+                });
+                mapPanel.add(BrowserView.newInstance(browser),BorderLayout.CENTER);
+                mapPanel.setBounds(0, 0, 600, 400);
+                mapPanel.setSize(600, 400);
+
+                buttonPanel.setBounds(0, 600, 600, 100);
+                buttonPanel.setLayout(new BorderLayout());
+                buttonPanel.setBackground(Color.blue);
+                //select.setBounds(250, 50, 50, 50);
+                buttonPanel.add(select,BorderLayout.CENTER );
+                frame.setSize(600, 650);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.add(mapPanel);
+                frame.add(buttonPanel);
+                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // Load the required web page.
+                //browser.navigation().loadUrl("https://html5test.com/");
+                browser.navigation().loadUrl("file:///Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/simple_map.html");
+
+            });
+    }//GEN-LAST:event_btnAttractionLocationActionPerformed
+
     private void btnAttractionBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttractionBrowseActionPerformed
         // TODO add your handling code here:
         JFileChooser browseImageFile = new JFileChooser();
@@ -1444,114 +1419,116 @@ public class OrganizationFrame extends javax.swing.JFrame {
                 Image img = ii.getImage().getScaledInstance(lblAttractionImage.getWidth(), lblAttractionImage.getHeight(), Image.SCALE_SMOOTH);
 
                 lblAttractionImage.setIcon(new ImageIcon(img));
-               
-                }
+
+            }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);    
+            JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnAttractionBrowseActionPerformed
 
-    private void btnAttractionLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttractionLocationActionPerformed
-//        LocationPicker lcp = new LocationPicker();
-//        lcp.setVisible(true);
-//        lcp.pack();
-//        lcp.setLocationRelativeTo(null);
-//        lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                // Initialize Chromium.
-        Engine engine = Engine.newInstance(
-        EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
-                .build());
-
-        // Create a Browser instance.
-        Browser browser = engine.newBrowser();
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Location Picker");
-            JPanel mapPanel = new JPanel();           
-            JPanel buttonPanel = new JPanel();
-            JButton select = new JButton();
-            select.setText("SELECT");
-            select.setSize(100, 50);
-            select.setHorizontalAlignment(JButton.CENTER);
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    // Shutdown Chromium and release allocated resources.
-                    engine.close();
-                }
-            });
-            select.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    
-                    browser.focusedFrame().ifPresent(frame ->{
-                        frame.document().ifPresent(document -> {
-                            document.documentElement().ifPresent(documentElemnt ->
-                                    documentElemnt.findElementsByClassName("gm-style-iw-d").forEach(element -> {                                     
-                                        selectLocation = element.innerText();
-                                        lblAttractionLoc.setText(selectLocation);
-                                    }));
-                        });                  
-                    });
-                    JOptionPane.showMessageDialog(null, "You have selected:"+selectLocation);
-                }
-            });
-            // Create and embed Swing BrowserView component to display web content.
-            select.addMouseListener(new MouseAdapter(){
-                public void MouseClicked(MouseEvent evt){
-                    
-                    
-
-                }
-            
-            });
-            mapPanel.add(BrowserView.newInstance(browser),BorderLayout.CENTER);
-            mapPanel.setBounds(0, 0, 600, 400);
-            mapPanel.setSize(600, 400);
- 
-            
-            buttonPanel.setBounds(0, 600, 600, 100);
-            buttonPanel.setLayout(new BorderLayout());
-            buttonPanel.setBackground(Color.blue);
-            //select.setBounds(250, 50, 50, 50);
-            buttonPanel.add(select,BorderLayout.CENTER );
-            frame.setSize(600, 650);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.add(mapPanel);           
-            frame.add(buttonPanel); 
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            // Load the required web page.
-            //browser.navigation().loadUrl("https://html5test.com/");
-            browser.navigation().loadUrl("file:///Users/hangzi/Documents/NEU/INFO5100/AED_FinalProject/TravelMaker/src/main/java/simple_map.html");
-
-        });
-    }//GEN-LAST:event_btnAttractionLocationActionPerformed
-
-    private void btnCityBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCityBrowseActionPerformed
-        JFileChooser browseImageFile = new JFileChooser();
-        //Filter image extensions
-        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
-        browseImageFile.addChoosableFileFilter(fnef);
-        int showOpenDialogue = browseImageFile.showOpenDialog(null);
-        try{
-            if(showOpenDialogue == JFileChooser.APPROVE_OPTION){
-                File selectedImageFile = browseImageFile.getSelectedFile();
-                String selectedImagePath = selectedImageFile.getAbsolutePath();
-                this.cityImagePath = selectedImagePath;
-                JOptionPane.showMessageDialog(null, "You are now selecting "+selectedImagePath);
-                //Display image on jlabel
-                ImageIcon ii = new ImageIcon(selectedImagePath);
-                //Resize image to fit the label
-                Image img = ii.getImage().getScaledInstance(lblCityImage.getWidth(), lblCityImage.getHeight(), Image.SCALE_SMOOTH);
-
-                lblCityImage.setIcon(new ImageIcon(img));
-               
-                }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);    
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        
+        int selectedRowIndex = tblAttraction.getSelectedRow();
+        long uid = Long.parseLong(lblAttractionId.getText()); 
+        if (selectedRowIndex<0) {
+            JOptionPane.showMessageDialog(this, "Please select a row to view.");
+            return;
         }
-    }//GEN-LAST:event_btnCityBrowseActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
+
+        
+        AC.AddUpdateDeleteAttraction('d', uid, null, null, null, 0, null, null, null);
+        AC.fillJtable(tblAttraction, "");
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+         AC.fillJtable(tblAttraction, "");
+
+        //populateAttractionTbl(); //refresh the table
+        //clear the textfields below
+        txtName.setText("");
+        txtPrice.setText("");
+        cbType.setSelectedIndex(0);
+        cbCity.setSelectedIndex(0);
+        lblAttractionLoc.setText("");
+        lblAttractionId.setText("");
+        lblAttractionImage.setIcon(null);
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
+        String aname = txtName.getText();
+        String type = cbType.getSelectedItem().toString();
+        String city = cbCity.getSelectedItem().toString();
+        String location = lblAttractionLoc.getText();
+        String attractionImagePath = this.attractionImagePath;
+        double price = Double.valueOf(txtPrice.getText());
+        long uid = Long.parseLong(lblAttractionId.getText());
+
+        if("".equals(aname)){
+            JOptionPane.showMessageDialog(null, "Attraction name is required");
+            return;
+        }
+
+        Attraction newattraction = new Attraction();
+
+        newattraction.AddUpdateDeleteAttraction('u', uid, username, type, city, price, location, picture, aname);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+        newattraction.fillJtable(tblAttraction, "");
+
+        txtName.setText("");
+        txtPrice.setText("");
+        lblAttractionId.setText("");
+        lblAttractionImage.setIcon(null);
+
+        //populateAttractionTbl(); //refresh the table
+    }//GEN-LAST:event_updateBtnActionPerformed
+
+    private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
+        String aname = txtName.getText();
+        String type = cbType.getSelectedItem().toString();
+        String city = cbCity.getSelectedItem().toString();
+        String location = lblAttractionLoc.getText();
+        String attractionImagePath = this.attractionImagePath;
+        double price = Double.valueOf(txtPrice.getText());
+        long uid = Long.parseLong(String.valueOf(randomIdGenerator(8)));
+
+        if("".equals(aname)){
+            JOptionPane.showMessageDialog(null, "Attraction name is required");
+            return;
+        }
+
+        Attraction newattraction = new Attraction();
+
+        newattraction.AddUpdateDeleteAttraction('i', uid, username, type, city, price, location, picture, aname);
+
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+        newattraction.fillJtable(tblAttraction, "");
+
+        txtName.setText("");
+        txtPrice.setText("");
+        lblAttractionId.setText("");
+        lblAttractionImage.setIcon(null);
+        //populateAttractionTbl();
+    }//GEN-LAST:event_createBtnActionPerformed
+
+    private void tblAttractionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAttractionMouseClicked
+        int selectedRowIndex = tblAttraction.getSelectedRow();
+
+        if (selectedRowIndex<0) {
+            JOptionPane.showMessageDialog(this, "Please select a row to view.");
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
+        
+        txtName.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        txtPrice.setText(model.getValueAt(selectedRowIndex, 4).toString());
+        lblAttractionLoc.setText(model.getValueAt(selectedRowIndex, 5).toString());
+        cbCity.setSelectedItem(model.getValueAt(selectedRowIndex, 3).toString());
+        cbType.setSelectedItem(model.getValueAt(selectedRowIndex, 2).toString());
+
+        lblAttractionId.setText(model.getValueAt(selectedRowIndex, 0).toString());
+        
+    }//GEN-LAST:event_tblAttractionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1592,6 +1569,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel JPanel2;
     private javax.swing.JButton accCreateBtn;
     private javax.swing.JButton accDeleteBtn;
     private javax.swing.JButton accUpdateBtn;
@@ -1605,22 +1583,16 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbCity;
-    private javax.swing.JComboBox<String> cbLang;
+    public static javax.swing.JComboBox<String> cbLang;
     private javax.swing.JComboBox<String> cbLevel;
     private javax.swing.JComboBox<String> cbType;
-    private javax.swing.JLabel cityLbl;
-    private javax.swing.JTextField cityTxt;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JButton createBtn;
-    private javax.swing.JButton createciBtn;
     private javax.swing.JLabel crossLabel;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel foldLabel;
     private javax.swing.JPanel headerBar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1635,7 +1607,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblCity;
     private javax.swing.JLabel lblCityImage;
     private javax.swing.JLabel lblCityName;
-    private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblCityName1;
+    public static javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblLanguage;
     private javax.swing.JLabel lblLevel;
     private javax.swing.JLabel lblLocation;
@@ -1644,6 +1617,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblPhoto;
     private javax.swing.JLabel lblPopulation;
     private javax.swing.JLabel lblPrice;
+    private javax.swing.JLabel lblPrice1;
     private javax.swing.JLabel lblState;
     private javax.swing.JLabel lblStatePass;
     private javax.swing.JLabel lblType;
@@ -1651,7 +1625,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.JButton logoutBtn;
     private javax.swing.JLabel registerLabel;
     private javax.swing.JTable tblAttraction;
-    private javax.swing.JTextField txtAdmit;
+    public static javax.swing.JTextField txtAdmit;
     private javax.swing.JTextField txtCityName;
     private javax.swing.JTextField txtLocation;
     private javax.swing.JTextField txtMayor;
@@ -1659,12 +1633,12 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPopulation;
     private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtState;
-    private javax.swing.JTextField txtStatePass;
+    public static javax.swing.JTextField txtState;
+    public static javax.swing.JTextField txtStatePass;
+    private javax.swing.JTextField txtUID;
     private javax.swing.JTextField txtZIP;
     private javax.swing.JButton updateBtn;
-    private javax.swing.JButton updateciBtn;
-    private javax.swing.JLabel usernameLabel;
+    public static javax.swing.JLabel usernameLabel;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }

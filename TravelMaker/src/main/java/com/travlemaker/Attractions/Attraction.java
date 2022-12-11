@@ -92,7 +92,7 @@ public class Attraction {
 //    private String imagePath;
 //    private String type;
 //    // 图片的格式需要确定  byte[] picture,
-    public void AddUpdateDeleteAttraction(char operation, String ID, String name, String location, double cost, String type, String city, String state, byte[] picture){
+    public void AddUpdateDeleteAttraction(char operation, Long ID, String state, String type, String city, double cost, String location, byte[] picture, String name){
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;
@@ -101,7 +101,7 @@ public class Attraction {
         if(operation == 'i'){
             try {
                 ps = con.prepareStatement("INSERT INTO OrganizationInfo(OID, OName, OType, OCity, OPrice, OLocation, Oimage, Oattraction) VALUES (?,?,?,?,?,?,?,?)");
-                ps.setString(1, ID);
+                ps.setLong(1, ID);
                 ps.setString(2, state);
                 ps.setString(3, type);
                 ps.setString(4, city);
@@ -115,7 +115,7 @@ public class Attraction {
                 }
                 
             } catch (SQLException ex) {
-                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Attraction.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
@@ -123,7 +123,7 @@ public class Attraction {
         // update the date when operation == u
         if(operation == 'u'){
             try {
-                ps = con.prepareStatement("UPDATE `OrganizationUser` SET `OName`= ?, `OType`= ?, `OCity`= ?, `OPrice`= ? ,`OLocation`= ?,`Oimage`= ?,`Oattractio `= ?,WHERE `OID` = ?");
+                ps = con.prepareStatement("UPDATE `OrganizationInfo` SET `OName`= ?, `OType`= ?, `OCity`= ?, `OPrice`= ? ,`OLocation`= ?,`Oimage`= ?,`Oattraction`= ? WHERE `OID` = ?");
                               
                 ps.setString(1, state);
                 ps.setString(2, type);
@@ -132,14 +132,14 @@ public class Attraction {
                 ps.setString(5, location);
                 ps.setBytes(6, picture);
                 ps.setString(7, name);
-                ps.setString(8, ID);
+                ps.setLong(8, ID);
 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "Attraction data Updated!");
                 }
                 
             } catch (SQLException ex) {
-                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Attraction.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
@@ -153,13 +153,13 @@ public class Attraction {
             {
                try {
                 ps = con.prepareStatement("DELETE FROM `OrganizationInfo` WHERE `OID` = ?");
-                ps.setString(1,ID);
+                ps.setLong(1,ID);
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "Attraction Deleted");
                     }
                 
                 } catch (SQLException ex) {
-                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Attraction.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             }
             
@@ -184,7 +184,7 @@ public class Attraction {
             
             while(rs.next()){
                 row = new Object[8];
-                row[0] = rs.getString(1);
+                row[0] = rs.getLong(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
@@ -197,7 +197,7 @@ public class Attraction {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Attraction.class.getName()).log(Level.SEVERE, null, ex);
         }                  
         
     }
