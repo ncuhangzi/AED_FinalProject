@@ -7,16 +7,8 @@ Name: __Yufei Chu__ NUID: __002747913__ Email Address: chu.yuf@northeastern.edu
 IDE: netBeans
 UI/UX lib: Javax Swing
 
-### Screenshot for the system (Account Management page)
 
+### Use Case Diagram for the System (created by draw.io)
+![alt text](https://i.imgur.com/vFa3z7E.jpg)
 ### UML diagram for the system (created by draw.io)
-
-### Sequence diagram for the System Admin (created by draw.io)
-
-### Sequence diagram for Organization (created by draw.io)
-
-### Sequence diagram for Enterprise (created by draw.io)
-
-### Sequence diagram for Customer (created by draw.io)
-
-All roles in the system belong to and inherit from the *Person* category, including the system administrator, Organization administrator, Enterprise administrator and Customer. Therefore, we use either the registration page or the login page as the system enter page. All users own a *unique ID*, and the same role **can only have a unique name**, but the names can be duplicated between different roles.
+![alt text](https://i.imgur.com/33tXOyH.jpg)
