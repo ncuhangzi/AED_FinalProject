@@ -5,7 +5,11 @@
 
 package com.travelmaker.System;
 
-import Enterprise.*;
+import Enterprise.CreateTravel;
+import Enterprise.EnterpriseAccount;
+import Enterprise.EnterpriseInfo;
+import Enterprise.OrderInfo;
+import com.travelmaker.System.EnterpriseManagement;
 import LoginPage.HomeLogin;
 import LoginPage.MyConnection;
 import UserEnterprise.TravelInfo;
@@ -21,18 +25,18 @@ import javax.swing.JOptionPane;
  *
  * @author yufei
  */
-public class SystemAdmin extends javax.swing.JFrame {
+public class EnterpriseManagerHome extends javax.swing.JFrame {
 
     /** Creates new form EnterpriseMainHome */
     
     EnterpriseAccount EA = new EnterpriseAccount();
     
-    public SystemAdmin(){
+    public EnterpriseManagerHome(){
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public SystemAdmin(String username, String password) {
+    public EnterpriseManagerHome(String username, String password) {
         initComponents();
         
         Connection con = MyConnection.getConnection();
@@ -66,7 +70,7 @@ public class SystemAdmin extends javax.swing.JFrame {
                 }
             } 
             catch (SQLException ex) {
-                Logger.getLogger(SystemAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EnterpriseManagerHome.class.getName()).log(Level.SEVERE, null, ex);
             }
         
     }
@@ -87,6 +91,7 @@ public class SystemAdmin extends javax.swing.JFrame {
         lblWelcome = new javax.swing.JLabel();
         MidPanel = new javax.swing.JPanel();
         btnInfo = new javax.swing.JButton();
+        btnAccount = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         btnInfo1 = new javax.swing.JButton();
         btnInfo2 = new javax.swing.JButton();
@@ -100,12 +105,12 @@ public class SystemAdmin extends javax.swing.JFrame {
         lblTitle.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTitle.setText("System Admin");
+        lblTitle.setText(" Enterprise Home");
 
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         lblWelcome.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        lblWelcome.setText(" Welcome < ns >");
+        lblWelcome.setText(" Welcome!!!!!");
 
         javax.swing.GroupLayout UpPanelLayout = new javax.swing.GroupLayout(UpPanel);
         UpPanel.setLayout(UpPanelLayout);
@@ -146,15 +151,28 @@ public class SystemAdmin extends javax.swing.JFrame {
         MidPanel.setBackground(new java.awt.Color(51, 51, 51));
 
         btnInfo.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        btnInfo.setText("Organization Management");
+        btnInfo.setText("Organization Information");
         btnInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInfoActionPerformed(evt);
             }
         });
 
+        btnAccount.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        btnAccount.setText("Account Management");
+        btnAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAccountMouseClicked(evt);
+            }
+        });
+        btnAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccountActionPerformed(evt);
+            }
+        });
+
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        btnLogout.setText("Logout");
+        btnLogout.setText("Back");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogoutActionPerformed(evt);
@@ -162,7 +180,7 @@ public class SystemAdmin extends javax.swing.JFrame {
         });
 
         btnInfo1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        btnInfo1.setText("User Managemnet");
+        btnInfo1.setText("Create Travel");
         btnInfo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInfo1ActionPerformed(evt);
@@ -170,7 +188,7 @@ public class SystemAdmin extends javax.swing.JFrame {
         });
 
         btnInfo2.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        btnInfo2.setText("Enterprise Management");
+        btnInfo2.setText("Order Information");
         btnInfo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInfo2ActionPerformed(evt);
@@ -182,16 +200,20 @@ public class SystemAdmin extends javax.swing.JFrame {
         MidPanelLayout.setHorizontalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
                 .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(MidPanelLayout.createSequentialGroup()
-                        .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addGap(154, 154, 154)
+                        .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MidPanelLayout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
                         .addComponent(btnInfo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnInfo2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(57, 57, 57)
+                        .addComponent(btnInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,12 +223,14 @@ public class SystemAdmin extends javax.swing.JFrame {
                     .addComponent(btnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/huawei.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/manage.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,7 +240,9 @@ public class SystemAdmin extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -230,13 +256,11 @@ public class SystemAdmin extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addComponent(UpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(MidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -244,34 +268,54 @@ public class SystemAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInfo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfo1ActionPerformed
-        // TODO add your handling code here:       
-        UserManagement UM = new UserManagement();
-        UM.setVisible(true);
-        UM.pack();
-        UM.setLocationRelativeTo(null);      
+        // TODO add your handling code here:
+        
+        CreateTravel CT = new CreateTravel();
+        CT.setVisible(true);
+        CT.pack();
+        CT.setLocationRelativeTo(null);
+        
+        
+        
+        
     }//GEN-LAST:event_btnInfo1ActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        HomeLogin HM = new HomeLogin();
-        HM.setVisible(true);
-        HM.pack();
-        HM.setLocationRelativeTo(null);
+        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
+        // TODO add your handling code here:
+        EnterpriseManagement EM = new EnterpriseManagement();
+        
+        EM.setVisible(true);
+        EM.pack();
+        EM.setLocationRelativeTo(null);
+
+    }//GEN-LAST:event_btnAccountActionPerformed
+
+    private void btnAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccountMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnAccountMouseClicked
+
     private void btnInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoActionPerformed
         // TODO add your handling code here:
-        OrganizationManagerFrame OMF = new OrganizationManagerFrame();
-        OMF.setVisible(true);
-        OMF.pack();
-        OMF.setLocationRelativeTo(null);
+        EnterpriseInfo EI = new EnterpriseInfo();
+        EI.setVisible(true);
+        EI.pack();
+        EI.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInfoActionPerformed
 
     private void btnInfo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfo2ActionPerformed
-        EnterpriseManagerHome EMH = new EnterpriseManagerHome();
-        EMH.setVisible(true);
-        EMH.pack();
-        EMH.setLocationRelativeTo(null);
+        // TODO add your handling code here:
+        
+        OrderInfo OI = new OrderInfo();
+        OI.setVisible(true);
+        OI.pack();
+        OI.setLocationRelativeTo(null);
+        
     }//GEN-LAST:event_btnInfo2ActionPerformed
 
     /**
@@ -291,23 +335,21 @@ public class SystemAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SystemAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagerHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SystemAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagerHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SystemAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagerHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SystemAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagerHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SystemAdmin().setVisible(true);
+                new EnterpriseManagerHome().setVisible(true);
             }
         });
     }
@@ -315,6 +357,7 @@ public class SystemAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MidPanel;
     private javax.swing.JPanel UpPanel;
+    private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnInfo;
     private javax.swing.JButton btnInfo1;
     private javax.swing.JButton btnInfo2;

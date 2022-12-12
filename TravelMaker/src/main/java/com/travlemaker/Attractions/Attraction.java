@@ -116,6 +116,7 @@ public class Attraction {
                 
             } catch (SQLException ex) {
                 Logger.getLogger(Attraction.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "The id is repeat, Please input another ID!");
             }
             
         }
@@ -183,15 +184,15 @@ public class Attraction {
             Object[] row;
             
             while(rs.next()){
-                row = new Object[8];
+                row = new Object[7];
                 row[0] = rs.getLong(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
                 row[4] = rs.getDouble(5);
                 row[5] = rs.getString(6);
-                row[6] = rs.getBytes(7);
-                row[7] = rs.getString(8);
+                row[6] = rs.getString(8);
+                
 
                 model.addRow(row);
             }

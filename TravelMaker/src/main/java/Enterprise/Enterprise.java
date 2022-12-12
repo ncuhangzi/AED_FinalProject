@@ -49,9 +49,13 @@ public class Enterprise {
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "New Enterprise Added!");
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "The id is repeat, Please input another ID!");
+                }
                 
             } catch (SQLException ex) {
                 Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "The id is repeat, Please input another ID!");
             }
             
         }

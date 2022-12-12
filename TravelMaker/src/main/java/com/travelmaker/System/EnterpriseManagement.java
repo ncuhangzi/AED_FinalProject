@@ -4,22 +4,24 @@
  */
 package com.travelmaker.System;
 
-import Enterprise.*;
 import UserEnterprise.*;
+import static Enterprise.CreateTravel.tblTravel;
 import Enterprise.Enterprise;
+import Enterprise.Enterprise;
+import static Enterprise.EnterpriseInfo.tblEnterprise;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //import static Enterprise.EnterpriseInfo.tblEnterprise;
 import javax.swing.table.DefaultTableModel;
 import LoginPage.MyConnection;
-import static com.travelmaker.System.UserManagement.tblUser;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -28,28 +30,28 @@ import javax.swing.JOptionPane;
  *
  * @author yufei
  */
-public class SystemAdminManagement extends javax.swing.JFrame {
+public class EnterpriseManagement extends javax.swing.JFrame {
 
     /**
      * Creates new form TravelInfo
      */
     
-    
     DefaultTableModel model;
-    SystemManage sm = new SystemManage();
+    EnterpriseManage em = new EnterpriseManage();//要改
     
-    public SystemAdminManagement() {
+    public EnterpriseManagement() {
         initComponents();
         this.setLocationRelativeTo(null);
-        sm.fillJtable(tblSystem, "");
-        model = (DefaultTableModel)tblSystem.getModel();
+        em.fillJtable(tblEnterprise, "");
+        model = (DefaultTableModel)tblEnterprise.getModel();
+        tblEnterprise.setShowGrid(true);
+        tblEnterprise.setGridColor(Color.ORANGE);
+        tblEnterprise.setSelectionBackground(Color.BLACK);
+//        enterprise.fillInfoJtable(tblEnterprise, "");
+//        model = (DefaultTableModel)tblEnterprise.getModel();
         
-        tblSystem.setShowGrid(true);
-        tblSystem.setGridColor(Color.ORANGE);
-        tblSystem.setSelectionBackground(Color.BLACK);
-//        admin.fillInfoJtable(tblSystem, "");
-//        model = (DefaultTableModel)tblSystem.getModel();
     }
+    
     public boolean verifText(){
         
         if(txtName.getText().equals("") || txtPassword.getText().equals("") )
@@ -57,13 +59,12 @@ public class SystemAdminManagement extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "One Or More Empty Field!");
             return false;
         }
-        // choose a date higher then the current date
-        // || endDateChooser.getDate().compareTo(startDateChooser.getDate()) == 1
         else{
             return true;
         }
         
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,7 +82,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         MidPanel = new javax.swing.JPanel();
         BotPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSystem = new javax.swing.JTable();
+        tblEnterprise = new javax.swing.JTable();
         btnCreate = new javax.swing.JButton();
         txtName = new javax.swing.JTextField();
         lblSearch = new javax.swing.JLabel();
@@ -99,7 +100,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         lblTitle2.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         lblTitle2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTitle2.setText("System Admin Account Management");
+        lblTitle2.setText("Enterprise Account Management");
 
         lblIcon2.setSize(new java.awt.Dimension(40, 40));
 
@@ -116,14 +117,14 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         UpPanelLayout.setHorizontalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UpPanelLayout.createSequentialGroup()
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(571, 571, 571))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpPanelLayout.createSequentialGroup()
-                        .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
+                        .addContainerGap()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(UpPanelLayout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblIcon2)
@@ -143,7 +144,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
                             .addComponent(lblIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(UpPanelLayout.createSequentialGroup()
                                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
+                                .addGap(1, 1, 1)
                                 .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -163,7 +164,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
 
         BotPanel.setBackground(new java.awt.Color(0, 0, 0));
 
-        tblSystem.setModel(new javax.swing.table.DefaultTableModel(
+        tblEnterprise.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -171,17 +172,17 @@ public class SystemAdminManagement extends javax.swing.JFrame {
                 "ID", "Name", "Password"
             }
         ));
-        tblSystem.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblEnterprise.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSystemMouseClicked(evt);
+                tblEnterpriseMouseClicked(evt);
             }
         });
-        tblSystem.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblEnterprise.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblSystemKeyReleased(evt);
+                tblEnterpriseKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblSystem);
+        jScrollPane1.setViewportView(tblEnterprise);
 
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -227,33 +228,27 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         BotPanelLayout.setHorizontalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BotPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BotPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BotPanelLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(BotPanelLayout.createSequentialGroup()
                         .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(BotPanelLayout.createSequentialGroup()
-                                .addComponent(lblSearch2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(BotPanelLayout.createSequentialGroup()
-                                .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblSearch1)
-                                    .addComponent(lblSearch))
-                                .addGap(18, 18, 18)
-                                .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(27, 27, 27)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblSearch1)
+                            .addComponent(lblSearch)
+                            .addComponent(lblSearch2))
+                        .addGap(18, 18, 18)
+                        .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
         BotPanelLayout.setVerticalGroup(
             BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +257,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
                 .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSearch2))
-                .addGap(28, 28, 28)
+                .addGap(30, 30, 30)
                 .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSearch))
@@ -270,7 +265,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
                 .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
+                .addGap(85, 85, 85)
                 .addGroup(BotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -316,46 +311,48 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         
         String Name = txtName.getText();
         String Password = txtPassword.getText();
-        
         long ID = Long.parseLong(txtID.getText());
         
         if(verifText()){
             //need to change o the enterprise user table
             //Enterprise ep = new Enterprise();
-            sm.AddUpdateDeleteEnterprise('i', ID, Name, Password);
+            em.AddUpdateDeleteEnterprise('i', ID, Name, Password);
 
-            tblSystem.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
-            sm.fillJtable(tblSystem, "");
+            tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+            em.fillJtable(tblEnterprise, "");
         }
         
     }//GEN-LAST:event_btnCreateActionPerformed
 
-    private void tblSystemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSystemMouseClicked
-        
-        rowIndex = tblSystem.getSelectedRow();
+
+    private void tblEnterpriseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEnterpriseMouseClicked
+        // TODO add your handling code here:
+
+        //        DefaultTableModel model = (DefaultTableModel)tblEnterprise.getModel();
+        rowIndex = tblEnterprise.getSelectedRow();
 
         txtID.setText(model.getValueAt(rowIndex, 0).toString());
         txtName.setText(model.getValueAt(rowIndex, 1).toString());
         txtPassword.setText(model.getValueAt(rowIndex, 2).toString());
-
         
-    }//GEN-LAST:event_tblSystemMouseClicked
+    }//GEN-LAST:event_tblEnterpriseMouseClicked
 
-    private void tblSystemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblSystemKeyReleased
+    private void tblEnterpriseKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEnterpriseKeyReleased
         // TODO add your handling code here
-    }//GEN-LAST:event_tblSystemKeyReleased
+    }//GEN-LAST:event_tblEnterpriseKeyReleased
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+ 
         long ID = Long.parseLong(txtID.getText());
         String Enter_Name = txtName.getText();
         String Enter_Password = txtPassword.getText();
         
         if(verifText()){
             //Enterprise ep = new Enterprise();
-            sm.AddUpdateDeleteEnterprise('u', ID, Enter_Name, Enter_Password);
+            em.AddUpdateDeleteEnterprise('u', ID, Enter_Name, Enter_Password);
 
-            tblSystem.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
-            sm.fillJtable(tblUser, "");
+            tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+            em.fillJtable(tblEnterprise, "");
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -366,10 +363,10 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         }
         else{
             long ID = Long.parseLong(txtID.getText());
-            sm.AddUpdateDeleteEnterprise('d', ID, null, null);
-            sm.fillJtable(tblSystem, "");
-            tblSystem.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
-            sm.fillJtable(tblSystem, "");
+            em.AddUpdateDeleteEnterprise('d', ID, null, null);
+            em.fillJtable(tblEnterprise, "");
+            tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+            em.fillJtable(tblEnterprise, "");
         }
         
         
@@ -377,8 +374,19 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         txtID.setText("");
         txtName.setText("");
         txtPassword.setText("");
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    public char[] randomIdGenerator(int len){
+        String nums = "1234567890";
+        Random rand = new Random();
+        char[] idarray = new char[len];
+        for (int a=0; a<idarray.length; a++){
+            idarray[a] = nums.charAt(rand.nextInt(nums.length()));
+        }
+        return idarray;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -396,22 +404,14 @@ public class SystemAdminManagement extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SystemAdminManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SystemAdminManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SystemAdminManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SystemAdminManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterpriseManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -424,7 +424,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SystemAdminManagement().setVisible(true);
+                new EnterpriseManagement().setVisible(true);
             }
         });
     }
@@ -444,7 +444,7 @@ public class SystemAdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel lblSearch1;
     private javax.swing.JLabel lblSearch2;
     private javax.swing.JLabel lblTitle2;
-    public static javax.swing.JTable tblSystem;
+    public static javax.swing.JTable tblEnterprise;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPassword;

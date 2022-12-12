@@ -9,8 +9,6 @@ import Enterprise.*;
 import LoginPage.HomeLogin;
 import LoginPage.MyConnection;
 import UserEnterprise.TravelInfo;
-import UserEnterprise.UserManagement;
-import com.travelmaker.UI.OrganizationManagerFrame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,6 +92,8 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
         btnInfo1 = new javax.swing.JButton();
         btnInfo2 = new javax.swing.JButton();
         BotPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,7 +107,7 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         lblWelcome.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        lblWelcome.setText(" Welcome <#####>");
+        lblWelcome.setText(" Welcome < ss >");
 
         javax.swing.GroupLayout UpPanelLayout = new javax.swing.GroupLayout(UpPanel);
         UpPanel.setLayout(UpPanelLayout);
@@ -116,9 +116,7 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
             .addGroup(UpPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(UpPanelLayout.createSequentialGroup()
-                        .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(UpPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel2)))
@@ -172,11 +170,6 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
 
         btnLogout.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         btnLogout.setText("Logout");
-        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLogoutMouseClicked(evt);
-            }
-        });
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogoutActionPerformed(evt);
@@ -205,16 +198,18 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
                 .addGap(90, 90, 90)
-                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnInfo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAccount, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
-                .addGap(12, 12, 12)
-                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(MidPanelLayout.createSequentialGroup()
+                        .addComponent(btnInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addComponent(btnInfo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnInfo2))
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MidPanelLayout.createSequentialGroup()
+                        .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(149, 149, 149)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
@@ -243,6 +238,19 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
             .addGap(0, 1, Short.MAX_VALUE)
         );
 
+        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/systemadmin.png")); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,6 +258,9 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
             .addComponent(UpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(BotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(MidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +271,9 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(189, 189, 189)
                         .addComponent(BotPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(MidPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(MidPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -285,12 +298,8 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
         HM.setVisible(true);
         HM.pack();
         HM.setLocationRelativeTo(null);
-    }//GEN-LAST:event_btnLogoutActionPerformed
-
-    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
-        // TODO add your handling code here:
         this.dispose();
-    }//GEN-LAST:event_btnLogoutMouseClicked
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
         // TODO add your handling code here:
@@ -373,7 +382,9 @@ public class SuperSystemAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnInfo1;
     private javax.swing.JButton btnInfo2;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblTitle;
     public static javax.swing.JLabel lblWelcome;

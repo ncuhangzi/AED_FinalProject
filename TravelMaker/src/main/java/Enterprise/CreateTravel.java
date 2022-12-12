@@ -757,26 +757,7 @@ public class CreateTravel extends javax.swing.JFrame {
 
         txtID.setText(model.getValueAt(rowIndex, 0).toString());
         jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
-        try{
-            
-            Connection con = MyConnection.getConnection();
-            Statement stm = con.createStatement();
-            
-            ResultSet rs = stm.executeQuery("SELECT `Ocity` FROM OrganizationInfo where Oname = '" + jcxOrganization.getSelectedItem().toString() + "' " );
-            
-            jcxCity.removeAllItems();
-            
-            
-            while(rs.next()){
-                String City = rs.getString("Ocity");
-                jcxCity.addItem(City);
-            }
-//            jcxCity.setSelectedItem(null);
-            con.close();
-        }
-        catch(Exception ex){
-            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
         jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
         jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
