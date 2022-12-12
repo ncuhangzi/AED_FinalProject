@@ -604,6 +604,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="pwdAdmin">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pwdAdminActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnAdminLogin">
                   <Properties>

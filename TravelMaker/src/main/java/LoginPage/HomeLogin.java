@@ -9,6 +9,9 @@ import Enterprise.EnterpriseInfo;
 import Enterprise.EnterpriseMainHome;
 import UserEnterprise.UserEnterpriseHome;
 import com.travelmaker.Dataanalyst.ChartMain;
+import com.travelmaker.System.SuperSystemAdmin;
+import com.travelmaker.System.SystemAdmin;
+import com.travelmaker.System.SystemAdminManagement;
 import com.travelmaker.UI.OrganizationFrame;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -367,6 +370,12 @@ public class HomeLogin extends javax.swing.JFrame {
 
         lblPasswoed5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblPasswoed5.setText("Password :");
+
+        pwdAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwdAdminActionPerformed(evt);
+            }
+        });
 
         btnAdminLogin.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnAdminLogin.setText("Login");
@@ -870,6 +879,24 @@ public class HomeLogin extends javax.swing.JFrame {
 
     private void btnAdminLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminLoginActionPerformed
         // TODO add your handling code here:
+        if (txtAdminUsername.getText().equals("ss") && pwdAdmin.getText().equals("ss")){
+            setVisible(false);
+            new SuperSystemAdmin().setVisible(true);    
+        }
+        else if(txtAdminUsername.getText().equals("00") && pwdAdmin.getText().equals("00")){
+            setVisible(false);
+            new SuperSystemAdmin().setVisible(true);
+        }else if(txtAdminUsername.getText().equals("ns") && pwdAdmin.getText().equals("ns")){
+            setVisible(false);
+            new SystemAdmin().setVisible(true); 
+        }
+        
+        else{
+            JOptionPane.showMessageDialog(null, "Incorrect Username or Password!");
+        }
+        
+        
+        
     }//GEN-LAST:event_btnAdminLoginActionPerformed
 
     private void btnAdminCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCancelActionPerformed
@@ -894,6 +921,10 @@ public class HomeLogin extends javax.swing.JFrame {
     private void btnAdminCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCancel1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminCancel1ActionPerformed
+
+    private void pwdAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdAdminActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwdAdminActionPerformed
 
     /**
      * @param args the command line arguments

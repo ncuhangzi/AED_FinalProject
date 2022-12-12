@@ -87,8 +87,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         txtUID.setEditable(false);
         txtLocation.setEditable(false); //should move to component initialize method later
         this.setLocationRelativeTo(null);
-        username = "Boston";
-        Password = "12345";
         oinfo.fillJtable(accountTbl, "");
         AC.fillJtable(tblAttraction, "");
 //        roleSetting();
@@ -308,7 +306,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         txtZIP = new javax.swing.JTextField();
         btnCityBrowse = new javax.swing.JButton();
         lblCityImage = new javax.swing.JLabel();
-        btnChooseLocation = new javax.swing.JButton();
         txtUID = new javax.swing.JTextField();
         lblCityName1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -410,7 +407,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "UID", "Name", "Type", "City", "Cost", "Location"
+                "UID", "Organization", "Type", "City", "Cost", "Location", "Name"
             }
         ));
         tblAttraction.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -612,7 +609,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "UID", "City", "Password", "Mayor", "Level", "ZIP", "Population", "Location"
+                "UID", "City", "Password", "Mayor", "Level", "ZIP", "Population", "Address"
             }
         ));
         accountTbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -703,7 +700,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         lblLocation.setFont(new java.awt.Font("Hiragino Sans", 0, 13)); // NOI18N
         lblLocation.setForeground(new java.awt.Color(228, 241, 254));
-        lblLocation.setText("Location:");
+        lblLocation.setText("Address:");
 
         txtZIP.setBackground(new java.awt.Color(106, 122, 137));
         txtZIP.setForeground(new java.awt.Color(228, 241, 254));
@@ -712,13 +709,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         btnCityBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCityBrowseActionPerformed(evt);
-            }
-        });
-
-        btnChooseLocation.setText("Choose Location");
-        btnChooseLocation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChooseLocationActionPerformed(evt);
             }
         });
 
@@ -736,33 +726,36 @@ public class OrganizationFrame extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(accDeleteBtn)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblLevel)
-                                .addComponent(cbLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(32, 32, 32)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblZip)
-                                .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(9, 9, 9))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                    .addGap(128, 128, 128)
-                                    .addComponent(accUpdateBtn))
-                                .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 33, Short.MAX_VALUE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCityName)
-                            .addComponent(txtCityName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblLevel)
+                            .addComponent(cbLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPassword)))
-                    .addComponent(lblLocation))
+                            .addComponent(lblZip)
+                            .addComponent(txtZIP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(lblLocation)
+                        .addGap(108, 108, 108)
+                        .addComponent(lblCityName1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(accDeleteBtn)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(accUpdateBtn))
+                            .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCityName)
+                                    .addComponent(txtCityName, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblPassword))))
+                        .addGap(0, 10, Short.MAX_VALUE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -771,16 +764,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
                             .addComponent(lblMayor)
                             .addComponent(lblPopulation)
                             .addComponent(txtPopulation, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(lblCityName1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(txtUID, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(accCreateBtn)
@@ -788,18 +772,17 @@ public class OrganizationFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(lblCityImage, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblPhoto)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCityBrowse))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(btnChooseLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtUID, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGap(94, 94, 94)
+                            .addComponent(lblCityImage, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(lblPhoto)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnCityBrowse))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -841,7 +824,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnChooseLocation)
                             .addComponent(txtUID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1023,7 +1005,12 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_foldLabelMouseClicked
 
     private void crossLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crossLabelMouseClicked
-        System.exit(0);
+        HomeLogin lgf = new HomeLogin();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+        lgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_crossLabelMouseClicked
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
@@ -1068,13 +1055,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStateUpdateActionPerformed
 
     private void txtLocationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLocationKeyPressed
-        char c = evt.getKeyChar();
-        if(Character.isLetter(c)){
-            txtLocation.setEditable(false);
-        }else{
-            txtLocation.setEditable(true);
 
-        }
     }//GEN-LAST:event_txtLocationKeyPressed
 
     private void accDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accDeleteBtnActionPerformed
@@ -1089,7 +1070,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         
         oinfo.AddUpdateDeleteEnterprise('d', uid, null, null, null, null, null, null, null, null);
         oinfo.fillJtable(accountTbl, "");
-        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Address"}));
         oinfo.fillJtable(accountTbl, "");
 //        JOptionPane.showMessageDialog(this, "City deleted.");
 
@@ -1140,7 +1121,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         
         OrganizationInfo OI = new OrganizationInfo();
         OI.AddUpdateDeleteEnterprise('u', uid, name, password, mayor, level, zipCode, population, location, picture);
-        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Address"}));
         OI.fillJtable(accountTbl,"");
     }//GEN-LAST:event_accUpdateBtnActionPerformed
 
@@ -1183,7 +1164,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         
         OrganizationInfo OI = new OrganizationInfo();
         OI.AddUpdateDeleteEnterprise('i', uid, name, password, mayor, level, zipCode, population, location, picture); 
-        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
+        accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Address"}));
         OI.fillJtable(accountTbl, "");
         
 
@@ -1252,77 +1233,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnStateBrowseActionPerformed
-
-    private void btnChooseLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseLocationActionPerformed
-        Engine engine = Engine.newInstance(
-            EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-            .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
-            .build());
-
-        // Create a Browser instance.
-        Browser browser = engine.newBrowser();
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Location Picker");
-            JPanel mapPanel = new JPanel();
-            JPanel buttonPanel = new JPanel();
-            JButton select = new JButton();
-            select.setText("SELECT");
-            select.setSize(100, 50);
-            select.setHorizontalAlignment(JButton.CENTER);
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    // Shutdown Chromium and release allocated resources.
-                    engine.close();
-                }
-            });
-            select.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    browser.focusedFrame().ifPresent(frame ->{
-                        frame.document().ifPresent(document -> {
-                            document.documentElement().ifPresent(documentElemnt ->
-                                documentElemnt.findElementsByClassName("gm-style-iw-d").forEach(element -> {
-                                    selectLocation = element.innerText();
-                                    lblAttractionLoc.setText(selectLocation);
-                                }));
-                            });
-                        });
-                        JOptionPane.showMessageDialog(null, "You have selected:"+selectLocation);
-                    }
-                });
-                // Create and embed Swing BrowserView component to display web content.
-                select.addMouseListener(new MouseAdapter(){
-                    public void MouseClicked(MouseEvent evt){
-
-                    }
-
-                });
-                mapPanel.add(BrowserView.newInstance(browser),BorderLayout.CENTER);
-                mapPanel.setBounds(0, 0, 600, 400);
-                mapPanel.setSize(600, 400);
-
-                buttonPanel.setBounds(0, 600, 600, 100);
-                buttonPanel.setLayout(new BorderLayout());
-                buttonPanel.setBackground(Color.blue);
-                //select.setBounds(250, 50, 50, 50);
-                buttonPanel.add(select,BorderLayout.CENTER );
-                frame.setSize(600, 650);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-                frame.add(mapPanel);
-                frame.add(buttonPanel);
-                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                // Load the required web page.
-                //browser.navigation().loadUrl("https://html5test.com/");
-//                browser.navigation().loadUrl("file:///Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/simple_map.html");
-                String url = "file://"+new File("simple_map.html").getAbsolutePath();
-                String[] urls = url.split("simple_map.html");        
-                url = urls[0]+"src/main/resources/simple_map.html";       
-                browser.navigation().loadUrl(url);
-            });
-    }//GEN-LAST:event_btnChooseLocationActionPerformed
 
     private void btnCityBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCityBrowseActionPerformed
         JFileChooser browseImageFile = new JFileChooser();
@@ -1498,7 +1408,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         
         AC.AddUpdateDeleteAttraction('d', uid, null, null, null, 0, null, null, null);
         AC.fillJtable(tblAttraction, "");
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Organization","Type","City","Cost","Location","Name"}));
          AC.fillJtable(tblAttraction, "");
 
         //populateAttractionTbl(); //refresh the table
@@ -1530,7 +1440,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         newattraction.AddUpdateDeleteAttraction('u', uid, username, type, city, price, location, picture, aname);
 
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Organization","Type","City","Cost","Location","Name"}));
         newattraction.fillJtable(tblAttraction, "");
 
         txtName.setText("");
@@ -1559,7 +1469,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         newattraction.AddUpdateDeleteAttraction('i', uid, username, type, city, price, location, picture, aname);
 
-        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Name","Type","City","Cost","Location"}));
+        tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"UID","Organization","Type","City","Cost","Location","Name"}));
         newattraction.fillJtable(tblAttraction, "");
 
         txtName.setText("");
@@ -1579,7 +1489,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) tblAttraction.getModel();
         
-        txtName.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        txtName.setText(model.getValueAt(selectedRowIndex, 6).toString());
         txtPrice.setText(model.getValueAt(selectedRowIndex, 4).toString());
         lblAttractionLoc.setText(model.getValueAt(selectedRowIndex, 5).toString());
         cbCity.setSelectedItem(model.getValueAt(selectedRowIndex, 3).toString());
@@ -1635,7 +1545,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
     private javax.swing.JTable accountTbl;
     private javax.swing.JButton btnAttractionBrowse;
     private javax.swing.JButton btnAttractionLocation;
-    private javax.swing.JButton btnChooseLocation;
     private javax.swing.JButton btnCityBrowse;
     private javax.swing.JButton btnStateBrowse;
     private javax.swing.JButton btnStateUpdate;
