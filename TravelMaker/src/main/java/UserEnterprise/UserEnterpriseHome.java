@@ -5,6 +5,17 @@
 package UserEnterprise;
 
 import Enterprise.Enterprise;
+import Enterprise.EnterpriseMainHome;
+import LoginPage.HomeLogin;
+import LoginPage.MyConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,11 +27,45 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
      * Creates new form UserEnterpriseInfo
      */
     
-    
+    UserAccount UA = new UserAccount();
     
     public UserEnterpriseHome() {
+        
+        
+    }
+    
+    public UserEnterpriseHome(String username, String password) {
         initComponents();
         
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+        
+        try{
+                
+                UA.txtName.setText(username);
+                UA.txtPassword.setText(password);
+                ps = con.prepareStatement("SELECT * FROM Normaluser where username = '" + username + "' AND password = '" + password + "' ");
+            
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next()){
+                    
+
+                    UA.txtPhone.setText(rs.getString("Phone"));
+                    UA.txtID.setText(rs.getString("ID"));
+                    UA.txtEmail.setText(rs.getString("Email"));
+                    UA.txtLocation.setText(rs.getString("Location"));
+                    
+
+                    this.dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You input wrong username!");
+                }
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(EnterpriseMainHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     /**
@@ -57,7 +102,7 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
 
         lblIcon2.setSize(new java.awt.Dimension(40, 40));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/home.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/home.png")); // NOI18N
 
         lblWelcome2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblWelcome2.setText(" Welcome <#####>");
@@ -194,7 +239,7 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/Boston.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/Boston.jpg")); // NOI18N
 
         javax.swing.GroupLayout BotPanelLayout = new javax.swing.GroupLayout(BotPanel);
         BotPanel.setLayout(BotPanelLayout);
@@ -244,7 +289,11 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAccountMouseClicked
 
     private void btnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccountActionPerformed
-        // TODO add your handling code here:
+        
+        UA.setVisible(true);
+        UA.pack();
+        UA.setLocationRelativeTo(null);
+        
     }//GEN-LAST:event_btnAccountActionPerformed
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
@@ -253,6 +302,13 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+        HomeLogin lgf = new HomeLogin();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+        lgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+        
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnLikeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLikeMouseClicked

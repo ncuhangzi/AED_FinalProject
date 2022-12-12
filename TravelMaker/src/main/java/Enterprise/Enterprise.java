@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
 public class Enterprise {
     
     // 图片的格式需要确定  byte[] picture,
-    public void AddUpdateDeleteEnterprise(char operation, long ID, String name, String city,String state, int zipcode, String location, String sdate, String edate, String organization, double price, byte[] picture, String detail){
+    public void AddUpdateDeleteEnterprise(char operation, long ID, String name, String city,String state, String zipcode, String location, String sdate, String edate, String organization, double price, byte[] picture, String detail){
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;
@@ -37,7 +37,7 @@ public class Enterprise {
                 ps.setString(2, name);
                 ps.setString(3, city);
                 ps.setString(4, state);
-                ps.setInt(5, zipcode);
+                ps.setString(5, zipcode);
                 ps.setString(6, location);
                 ps.setString(7,  sdate);
                 ps.setString(8, edate);
@@ -49,9 +49,13 @@ public class Enterprise {
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "New Enterprise Added!");
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "The id is repeat, Please input another ID!");
+                }
                 
             } catch (SQLException ex) {
                 Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "The id is repeat, Please input another ID!");
             }
             
         }
@@ -65,7 +69,7 @@ public class Enterprise {
                 ps.setString(1, name);
                 ps.setString(2, city);
                 ps.setString(3, state);
-                ps.setInt(4, zipcode);
+                ps.setString(4, zipcode);
                 ps.setString(5, location);
                 ps.setString(6,  sdate);
                 ps.setString(7, edate);
@@ -129,7 +133,7 @@ public class Enterprise {
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
-                row[4] = rs.getInt(5);
+                row[4] = rs.getString(5);
                 row[5] = rs.getString(6);
                 row[6] = rs.getDate(7);
                 row[7] = rs.getDate(8);
@@ -148,7 +152,7 @@ public class Enterprise {
         }   
     }
     
-    public void fillAccount(String name, String password, String enterprisename, int phone, String email, String sdate, String location, String introduction){
+    public void fillAccount(String name, String password, String enterprisename, long phone, String email, String sdate, String location, String introduction){
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;

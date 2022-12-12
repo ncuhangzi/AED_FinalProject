@@ -4,6 +4,9 @@
  */
 package Enterprise;
 
+import UserEnterprise.Travel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author yufei
@@ -13,8 +16,14 @@ public class OrderInfo extends javax.swing.JFrame {
     /**
      * Creates new form OrderInfo
      */
+    
+    Travel travel = new Travel();
+    DefaultTableModel model;
     public OrderInfo() {
+        
         initComponents();
+        travel.fillOrderJtable(tblOrderList, "");
+        model = (DefaultTableModel)tblOrderList.getModel();
     }
 
     /**
@@ -32,7 +41,7 @@ public class OrderInfo extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         BotPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTravel = new javax.swing.JTable();
+        tblOrderList = new javax.swing.JTable();
         MidPanel = new javax.swing.JPanel();
         lblSearch = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
@@ -49,8 +58,13 @@ public class OrderInfo extends javax.swing.JFrame {
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         btnBack.setBackground(new java.awt.Color(250, 115, 12));
-        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
+        btnBack.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/back.png")); // NOI18N
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout UpPanelLayout = new javax.swing.GroupLayout(UpPanel);
         UpPanel.setLayout(UpPanelLayout);
@@ -82,7 +96,7 @@ public class OrderInfo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tblTravel.setModel(new javax.swing.table.DefaultTableModel(
+        tblOrderList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -98,17 +112,17 @@ public class OrderInfo extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        tblTravel.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblOrderList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTravelMouseClicked(evt);
+                tblOrderListMouseClicked(evt);
             }
         });
-        tblTravel.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblOrderList.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblTravelKeyReleased(evt);
+                tblOrderListKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblTravel);
+        jScrollPane1.setViewportView(tblOrderList);
 
         javax.swing.GroupLayout BotPanelLayout = new javax.swing.GroupLayout(BotPanel);
         BotPanel.setLayout(BotPanelLayout);
@@ -180,39 +194,42 @@ public class OrderInfo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblTravelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelMouseClicked
+    int rowIndex;
+    long ID;
+    String Organization;
+    String City;
+    String Type;
+    String Attraction;
+    String Location;
+    double Cost;
+    double Price;
+    String Travel;
+    String Detail;
+    String startDate;
+    String endDate;
+    private void tblOrderListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrderListMouseClicked
         // TODO add your handling code here:
 
         //        DefaultTableModel model = (DefaultTableModel)tblEnterprise.getModel();
 
-        rowIndex = tblTravel.getSelectedRow();
+        rowIndex = tblOrderList.getSelectedRow();
 
-        txtID.setText(model.getValueAt(rowIndex, 0).toString());
-        jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
-        jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
-        jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
-        jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-        txtLocation.setText(model.getValueAt(rowIndex, 5).toString());
-        txtCost.setText(model.getValueAt(rowIndex, 6).toString());
-        txtPrice.setText(model.getValueAt(rowIndex, 7).toString());
-        txtTravel.setText(model.getValueAt(rowIndex, 8).toString());
+        ID = Long.parseLong(model.getValueAt(rowIndex, 0).toString());
+        Organization = model.getValueAt(rowIndex, 1).toString();
+        City = model.getValueAt(rowIndex, 2).toString();
+        Type = model.getValueAt(rowIndex, 3).toString();
+        Attraction = model.getValueAt(rowIndex, 4).toString();
+        Location = model.getValueAt(rowIndex, 5).toString();
+        Cost = Double.parseDouble(model.getValueAt(rowIndex, 6).toString());
+        Price = Double.parseDouble(model.getValueAt(rowIndex, 7).toString());
+        Travel = model.getValueAt(rowIndex, 8).toString();
+        startDate = model.getValueAt(rowIndex, 9).toString();
+        endDate = model.getValueAt(rowIndex, 10).toString();
+        Detail = model.getValueAt(rowIndex, 11).toString();
 
-        txtDetail.setText(model.getValueAt(rowIndex, 11).toString());
+    }//GEN-LAST:event_tblOrderListMouseClicked
 
-        Date StartDate;
-        Date EndDate;
-        try {
-            StartDate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 9).toString());
-            startDateChooser.setDate(StartDate);
-            EndDate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 10).toString());
-            endDateChooser.setDate(EndDate);
-        } catch (ParseException ex) {
-            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_tblTravelMouseClicked
-
-    private void tblTravelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelKeyReleased
+    private void tblOrderListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblOrderListKeyReleased
         // TODO add your handling code here:
 
         //        if(evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN){
@@ -241,14 +258,19 @@ public class OrderInfo extends javax.swing.JFrame {
                 //                Logger.getLogger(Enterprise.class.getName()).log(Level.SEVERE, null, ex);
                 //            }
             //        }
-    }//GEN-LAST:event_tblTravelKeyReleased
+    }//GEN-LAST:event_tblOrderListKeyReleased
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
-        etp.fillJtable(tblEnterprise, txtSearch.getText());
+        tblOrderList.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+        travel.fillOrderJtable(tblOrderList, txtSearch.getText());
 
     }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,7 +316,7 @@ public class OrderInfo extends javax.swing.JFrame {
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblTitle;
-    public static javax.swing.JTable tblTravel;
+    public static javax.swing.JTable tblOrderList;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

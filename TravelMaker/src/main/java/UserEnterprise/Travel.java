@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Travel {
     
-    public void AddUpdateDeleteEnterprise(char operation, long ID, String Oname, String city, String type, String attraction, String location, double cost, double price, String travelname, String sdate, String edate, String detail){
+    public void AddUpdateDeleteEnterprise(char operation, long ID, String Oname, String city, String type, String attraction, String location, double cost, double price, String travelname, String sdate, String edate, String detail, String Ename){
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;
@@ -33,7 +33,7 @@ public class Travel {
         // i for insert
         if(operation == 'i'){
             try {
-                ps = con.prepareStatement("INSERT INTO TravelInfo(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                ps = con.prepareStatement("INSERT INTO TravelInfo(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail, Tenterprise) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 ps.setLong(1, ID);
                 ps.setString(2, Oname);
                 ps.setString(3, city);
@@ -46,6 +46,7 @@ public class Travel {
                 ps.setString(10,  sdate);
                 ps.setString(11, edate);
                 ps.setString(12, detail);
+                ps.setString(13, Ename);
                 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "New Enterprise Added!");
@@ -61,7 +62,7 @@ public class Travel {
         // update the date when operation == u
         if(operation == 'u'){
             try {
-                ps = con.prepareStatement("UPDATE `TravelInfo` SET `Torganization`= ?, `Tcity`= ?, `Ttype`= ?, `Tattraction`= ?, `Tlocation`= ?, `Tcost`= ?, `Tprice`= ?, `Travelname`= ?, `Tstartdate`= ?, `Tenddate`= ?, `Tdetail`= ? WHERE `TID` = ?");
+                ps = con.prepareStatement("UPDATE `TravelInfo` SET `Torganization`= ?, `Tcity`= ?, `Ttype`= ?, `Tattraction`= ?, `Tlocation`= ?, `Tcost`= ?, `Tprice`= ?, `Travelname`= ?, `Tstartdate`= ?, `Tenddate`= ?, `Tdetail`= ?, `Tenterprise`= ? WHERE `TID` = ?");
                 
                 ps.setString(1, Oname);
                 ps.setString(2, city);
@@ -74,7 +75,8 @@ public class Travel {
                 ps.setString(9,  sdate);
                 ps.setString(10, edate);
                 ps.setString(11, detail);
-                ps.setLong(12, ID); 
+                ps.setString(12, Ename);
+                ps.setLong(13, ID); 
 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "Travel data Updated!");
@@ -94,7 +96,7 @@ public class Travel {
             if(YesOrNo == JOptionPane.OK_OPTION)
             {
                try {
-                ps = con.prepareStatement("DELETE FROM `TravelInfo` WHERE `ID` = ?");
+                ps = con.prepareStatement("DELETE FROM `TravelInfo` WHERE `TID` = ?");
                 ps.setLong(1,ID);
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "Travel Deleted");
@@ -118,7 +120,7 @@ public class Travel {
         
         try {
             
-            ps = con.prepareStatement("SELECT * FROM `TravelInfo` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tprice`)LIKE ?");
+            ps = con.prepareStatement("SELECT * FROM `TravelInfo` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tenterprise`)LIKE ?");
             ps.setString(1, "%"+valueToSearch+"%");
             ResultSet rs = ps.executeQuery();
             DefaultTableModel model = (DefaultTableModel)table.getModel();
@@ -127,7 +129,7 @@ public class Travel {
             
             while(rs.next()){
                 
-                row = new Object[12];
+                row = new Object[13];
                 row[0] = rs.getLong(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
@@ -140,6 +142,7 @@ public class Travel {
                 row[9] = rs.getDate(10);
                 row[10] = rs.getDate(11);
                 row[11] = rs.getString(12);
+                row[12] = rs.getString(13);
 
                 
                 model.addRow(row);
@@ -160,7 +163,7 @@ public class Travel {
         
         try {
             
-            ps = con.prepareStatement("SELECT * FROM `TravelLike` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tprice`)LIKE ?");
+            ps = con.prepareStatement("SELECT * FROM `TravelLike` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tprice`, `Tenterprise`)LIKE ?");
             ps.setString(1, "%"+valueToSearch+"%");
             ResultSet rs = ps.executeQuery();
             DefaultTableModel model = (DefaultTableModel)table.getModel();
@@ -169,7 +172,7 @@ public class Travel {
             
             while(rs.next()){
                 
-                row = new Object[12];
+                row = new Object[13];
                 row[0] = rs.getLong(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
@@ -182,6 +185,7 @@ public class Travel {
                 row[9] = rs.getDate(10);
                 row[10] = rs.getDate(11);
                 row[11] = rs.getString(12);
+                row[12] = rs.getString(13);
 
                 
                 model.addRow(row);
@@ -199,7 +203,7 @@ public class Travel {
         
         try {
             
-            ps = con.prepareStatement("SELECT * FROM `TravelOrder` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tprice`)LIKE ?");
+            ps = con.prepareStatement("SELECT * FROM `TravelOrder` WHERE CONCAT(`Torganization`, `Tcity`,`Ttype`,`Tstartdate`, `Tattraction`, `Tenddate`, `Tprice`, `Tenterprise`)LIKE ?");
             ps.setString(1, "%"+valueToSearch+"%");
             ResultSet rs = ps.executeQuery();
             DefaultTableModel model = (DefaultTableModel)table.getModel();
@@ -208,7 +212,7 @@ public class Travel {
             
             while(rs.next()){
                 
-                row = new Object[12];
+                row = new Object[13];
                 row[0] = rs.getLong(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
@@ -221,6 +225,7 @@ public class Travel {
                 row[9] = rs.getDate(10);
                 row[10] = rs.getDate(11);
                 row[11] = rs.getString(12);
+                row[12] = rs.getString(13);
 
 
 

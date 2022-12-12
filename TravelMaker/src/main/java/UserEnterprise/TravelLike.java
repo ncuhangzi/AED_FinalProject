@@ -5,7 +5,6 @@
 package UserEnterprise;
 
 import LoginPage.MyConnection;
-import static UserEnterprise.TravelInfo.tblTravel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -61,13 +60,13 @@ public class TravelLike extends javax.swing.JFrame {
 
         lblTitle.setBackground(new java.awt.Color(0, 102, 204));
         lblTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTitle.setText("                                                 Like List");
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText("              Like List");
 
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         btnBack.setBackground(new java.awt.Color(250, 115, 12));
-        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
+        btnBack.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/back.png")); // NOI18N
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,13 +81,13 @@ public class TravelLike extends javax.swing.JFrame {
             .addGroup(UpPanelLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(btnBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 428, Short.MAX_VALUE)
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 821, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(UpPanelLayout.createSequentialGroup()
                 .addGap(366, 366, 366)
                 .addComponent(lblIcon)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(1031, Short.MAX_VALUE))
         );
         UpPanelLayout.setVerticalGroup(
             UpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +136,7 @@ public class TravelLike extends javax.swing.JFrame {
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(117, 117, 117)
                 .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(793, Short.MAX_VALUE))
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,11 +154,11 @@ public class TravelLike extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail"
+                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail", "Enterprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -221,7 +220,7 @@ public class TravelLike extends javax.swing.JFrame {
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblTravelLike.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+        tblTravelLike.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
         travel.fillLikeJtable(tblTravelLike, txtSearch.getText());
     }//GEN-LAST:event_txtSearchKeyTyped
 
@@ -239,6 +238,7 @@ public class TravelLike extends javax.swing.JFrame {
     String Detail;
     String startDate;
     String endDate;
+    String Ename;
     private void tblTravelLikeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelLikeMouseClicked
         // TODO add your handling code here:
 
@@ -259,6 +259,7 @@ public class TravelLike extends javax.swing.JFrame {
         startDate = model.getValueAt(rowIndex, 9).toString();
         endDate = model.getValueAt(rowIndex, 10).toString();
         Detail = model.getValueAt(rowIndex, 11).toString();
+        Ename = model.getValueAt(rowIndex, 12).toString();
     }//GEN-LAST:event_tblTravelLikeMouseClicked
 
     private void tblTravelLikeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelLikeKeyReleased
@@ -300,7 +301,7 @@ public class TravelLike extends javax.swing.JFrame {
             
         try {
             
-            ps = con.prepareStatement("INSERT INTO TravelOrder(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO TravelOrder(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail, Tenterprise) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setLong(1, ID);
             ps.setString(2, Organization);
             ps.setString(3, City);
@@ -313,6 +314,7 @@ public class TravelLike extends javax.swing.JFrame {
             ps.setString(10,  startDate);
             ps.setString(11, endDate);
             ps.setString(12, Detail);
+            ps.setString(13, Ename);
                 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "New Enterprise Added!");

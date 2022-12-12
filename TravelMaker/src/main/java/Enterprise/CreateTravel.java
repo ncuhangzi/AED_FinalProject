@@ -33,10 +33,61 @@ public class CreateTravel extends javax.swing.JFrame {
     String filename = null;
     Travel tl = new Travel();
     DefaultTableModel model;
- 
+    String Eusername;
     
     public CreateTravel() {
         initComponents();
+        tl.fillInfoJtable(tblTravel, "");
+        model = (DefaultTableModel)tblTravel.getModel();
+        tblTravel.setRowHeight(40);
+        tblTravel.setShowGrid(true);
+        tblTravel.setGridColor(Color.ORANGE);
+        tblTravel.setSelectionBackground(Color.BLACK);
+        
+        // Get organization
+        try{
+            
+            Connection con = MyConnection.getConnection();
+            Statement stm = con.createStatement();
+            
+            ResultSet rs = stm.executeQuery("SELECT `Oname` FROM `OrganizationInfo` ");
+            
+            while(rs.next()){
+                String Organization = rs.getString("Oname");
+                jcxOrganization.addItem(Organization);
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        // get the Attraction
+        try{
+            
+            Connection con = MyConnection.getConnection();
+            Statement stm = con.createStatement();
+            
+            
+            
+//            ResultSet rs = stm.executeQuery("SELECT `Oattraction` FROM `OrganizationInfo`" );
+            ResultSet rs = stm.executeQuery("Select `Oattraction` FROM OrganizationInfo where Oname = '" + jcxOrganization.getSelectedItem().toString() + "'");
+            while(rs.next()){
+                String Attraction = rs.getString("Oattraction");
+                jcxAttraction.addItem(Attraction);
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public CreateTravel(String username) {
+        initComponents();
+        Eusername = username;
         tl.fillInfoJtable(tblTravel, "");
         model = (DefaultTableModel)tblTravel.getModel();
         tblTravel.setRowHeight(40);
@@ -84,25 +135,6 @@ public class CreateTravel extends javax.swing.JFrame {
         }
         
         
-        // get the city
-//        try{
-//            
-//            Connection con = MyConnection.getConnection();
-//            Statement stm = con.createStatement();
-//            
-//            
-//            
-//            ResultSet rs = stm.executeQuery("SELECT `Ocity` FROM OrganizationInfo where Oname = '" + jcxOrganization.getSelectedItem().toString() + "' " );
-//            
-//            while(rs.next()){
-//                String City = rs.getString("Ocity");
-//                jcxCity.addItem(City);
-//            }
-//            con.close();
-//        }
-//        catch(Exception ex){
-//            Logger.getLogger(Travel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
         
     }
 
@@ -164,7 +196,7 @@ public class CreateTravel extends javax.swing.JFrame {
         lblIcon.setSize(new java.awt.Dimension(40, 40));
 
         btnBack.setBackground(new java.awt.Color(250, 115, 12));
-        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/back.png"))); // NOI18N
+        btnBack.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/back.png")); // NOI18N
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,11 +499,11 @@ public class CreateTravel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail"
+                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail", "Enterprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -599,9 +631,9 @@ public class CreateTravel extends javax.swing.JFrame {
             if(verifText()){
 
                 Travel tl = new Travel();
-                tl.AddUpdateDeleteEnterprise('u', Travel_ID, Organization, City, Type, Attaction, Location, Cost, Price, Travel_Name, Start_Date, End_Date, Detail);
+                tl.AddUpdateDeleteEnterprise('u', Travel_ID, Organization, City, Type, Attaction, Location, Cost, Price, Travel_Name, Start_Date, End_Date, Detail, Eusername);
                 
-                tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+                tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
                 tl.fillInfoJtable(tblTravel, "");
 
             }
@@ -617,9 +649,9 @@ public class CreateTravel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No Travel Data Selected");
         }else{
             long Travel_ID = Long.parseLong(txtID.getText());
-            tl.AddUpdateDeleteEnterprise('d', Travel_ID, null, null, null,null, null, 0, 0, null, null, null, null);
+            tl.AddUpdateDeleteEnterprise('d', Travel_ID, null, null, null,null, null, 0, 0, null, null, null, null, null);
             tl.fillInfoJtable(tblTravel, "");
-            tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+            tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
             tl.fillInfoJtable(tblTravel, "");
 
             txtID.setText("");
@@ -660,9 +692,9 @@ public class CreateTravel extends javax.swing.JFrame {
             if(verifText()){
 
                 Travel tl = new Travel();
-                tl.AddUpdateDeleteEnterprise('i', Travel_ID, Organization, City, Type, Attaction, Location, Cost, Price, Travel_Name, Start_Date, End_Date, Detail);
+                tl.AddUpdateDeleteEnterprise('i', Travel_ID, Organization, City, Type, Attaction, Location, Cost, Price, Travel_Name, Start_Date, End_Date, Detail, Eusername);
                 
-                tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+                tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
                 tl.fillInfoJtable(tblTravel, "");
 //                tblEnterprise.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
 //                ep.fillJtable(tblEnterprise, "");
@@ -711,24 +743,6 @@ public class CreateTravel extends javax.swing.JFrame {
     }//GEN-LAST:event_jcxCityActionPerformed
 
     private void txtCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostActionPerformed
-        try {
-            // TODO add your handling code here:
-            
-            Connection con = MyConnection.getConnection();
-            Statement stm = con.createStatement();
-            
-            ResultSet rs = stm.executeQuery("SELECT `Ocity` FROM OrganizationInfo where Oname = '" + jcxOrganization.getSelectedItem().toString() + "' " );
-            
-            jcxCity.removeAllItems();
-            
-            
-            while(rs.next()){
-                String City = rs.getString("Ocity");
-                jcxCity.addItem(City);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateTravel.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
     }//GEN-LAST:event_txtCostActionPerformed
 
@@ -743,6 +757,7 @@ public class CreateTravel extends javax.swing.JFrame {
 
         txtID.setText(model.getValueAt(rowIndex, 0).toString());
         jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
+        
         jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
         jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
         jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
