@@ -19,22 +19,22 @@ import javax.swing.JOptionPane;
  */
 public class OrganizationProfile {
     
-    public void UpdateOrganizationUserAccount(char operation, long ID, String Username, String Password, String language, String admit, byte[] picture){
+    public void UpdateOrganizationUserAccount(char operation, String Username, String Password, String language, String admit, byte[] picture){
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;
         
         if(operation == 'u'){
             try {
-                ps = con.prepareStatement("UPDATE `Organizationuser` SET `Oname`= ?, `Opassword`= ?, `Olanguage`= ?, `Oadmitted`= ?, `Oimage`= ? WHERE `ID` = ?");
+                ps = con.prepareStatement("UPDATE `Organizationuser` SET  `Opassword`= ?, `Olanguage`= ?, `Oadmitted`= ?, `Oimage`= ? WHERE `Oname` = ?");
                 
                 
-                ps.setString(1, Username);
-                ps.setString(2, Password);
-                ps.setString(3, language);
-                ps.setString(4, admit);
-                ps.setBytes(5,  picture);
-                ps.setLong(6, ID); 
+                
+                ps.setString(1, Password);
+                ps.setString(2, language);
+                ps.setString(3, admit);
+                ps.setBytes(4,  picture);
+                ps.setString(5, Username);
 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "Organization User Account data Updated!");

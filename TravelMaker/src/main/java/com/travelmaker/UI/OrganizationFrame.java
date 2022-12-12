@@ -7,6 +7,7 @@ package com.travelmaker.UI;
 import Enterprise.Enterprise;
 import static Enterprise.EnterpriseInfo.tblEnterprise;
 import Enterprise.EnterpriseMainHome;
+import LoginPage.HomeLogin;
 import LoginPage.MyConnection;
 import UserEnterprise.Travel;
 import com.teamdev.jxbrowser.browser.Browser;
@@ -86,7 +87,6 @@ public class OrganizationFrame extends javax.swing.JFrame {
         txtUID.setEditable(false);
         txtLocation.setEditable(false); //should move to component initialize method later
         this.setLocationRelativeTo(null);
-        this.state = new State("Boston","12345");
         username = "Boston";
         Password = "12345";
         oinfo.fillJtable(accountTbl, "");
@@ -1028,7 +1028,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         //       
-        LoginForm lgf = new LoginForm();
+        HomeLogin lgf = new HomeLogin();
         lgf.setVisible(true);
         lgf.pack();
         lgf.setLocationRelativeTo(null);
@@ -1039,7 +1039,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void btnStateUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStateUpdateActionPerformed
-        long uid = Long.parseLong(lblAttractionId.getText());
+//        long uid = Long.parseLong(lblAttractionId.getText());
         String name = txtState.getText();
         String password = txtStatePass.getText();
         String language = cbLang.getSelectedItem().toString();
@@ -1056,7 +1056,7 @@ public class OrganizationFrame extends javax.swing.JFrame {
         }
         
         OrganizationProfile op = new OrganizationProfile();
-        op.UpdateOrganizationUserAccount('u', uid, name, password, language, admit, picture);
+        op.UpdateOrganizationUserAccount('u', name, password, language, admit, picture);
 //        //Display image on jlabel
 //        ImageIcon ii = new ImageIcon(stateImagepath);
 //        //Resize image to fit the label
@@ -1179,12 +1179,8 @@ public class OrganizationFrame extends javax.swing.JFrame {
             return;
         }
 
-        //employeeId existed !!
-        if(state.isExisted(name)){
-            JOptionPane.showMessageDialog(null, "City already existed!");
-            return;
-        }
 
+        
         OrganizationInfo OI = new OrganizationInfo();
         OI.AddUpdateDeleteEnterprise('i', uid, name, password, mayor, level, zipCode, population, location, picture); 
         accountTbl.setModel(new DefaultTableModel(null,new Object[]{"UID","City","Password","Mayor","Level","Zip","Population","Location"}));
@@ -1258,11 +1254,74 @@ public class OrganizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStateBrowseActionPerformed
 
     private void btnChooseLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseLocationActionPerformed
-        LocationPicker lcp = new LocationPicker();
-        lcp.setVisible(true);
-        lcp.pack();
-        lcp.setLocationRelativeTo(null);
-        lcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Engine engine = Engine.newInstance(
+            EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+            .licenseKey("6P830J66YBX0YGUC06OM6Y7U70YS7G14WF0L5DF5YH06G6QJF7L7JKJ9K9X8B7FZTWZW")
+            .build());
+
+        // Create a Browser instance.
+        Browser browser = engine.newBrowser();
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Location Picker");
+            JPanel mapPanel = new JPanel();
+            JPanel buttonPanel = new JPanel();
+            JButton select = new JButton();
+            select.setText("SELECT");
+            select.setSize(100, 50);
+            select.setHorizontalAlignment(JButton.CENTER);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    // Shutdown Chromium and release allocated resources.
+                    engine.close();
+                }
+            });
+            select.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    browser.focusedFrame().ifPresent(frame ->{
+                        frame.document().ifPresent(document -> {
+                            document.documentElement().ifPresent(documentElemnt ->
+                                documentElemnt.findElementsByClassName("gm-style-iw-d").forEach(element -> {
+                                    selectLocation = element.innerText();
+                                    lblAttractionLoc.setText(selectLocation);
+                                }));
+                            });
+                        });
+                        JOptionPane.showMessageDialog(null, "You have selected:"+selectLocation);
+                    }
+                });
+                // Create and embed Swing BrowserView component to display web content.
+                select.addMouseListener(new MouseAdapter(){
+                    public void MouseClicked(MouseEvent evt){
+
+                    }
+
+                });
+                mapPanel.add(BrowserView.newInstance(browser),BorderLayout.CENTER);
+                mapPanel.setBounds(0, 0, 600, 400);
+                mapPanel.setSize(600, 400);
+
+                buttonPanel.setBounds(0, 600, 600, 100);
+                buttonPanel.setLayout(new BorderLayout());
+                buttonPanel.setBackground(Color.blue);
+                //select.setBounds(250, 50, 50, 50);
+                buttonPanel.add(select,BorderLayout.CENTER );
+                frame.setSize(600, 650);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.add(mapPanel);
+                frame.add(buttonPanel);
+                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // Load the required web page.
+                //browser.navigation().loadUrl("https://html5test.com/");
+//                browser.navigation().loadUrl("file:///Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/simple_map.html");
+                String url = "file://"+new File("simple_map.html").getAbsolutePath();
+                String[] urls = url.split("simple_map.html");        
+                url = urls[0]+"src/main/resources/simple_map.html";       
+                browser.navigation().loadUrl(url);
+            });
     }//GEN-LAST:event_btnChooseLocationActionPerformed
 
     private void btnCityBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCityBrowseActionPerformed

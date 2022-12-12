@@ -8,6 +8,7 @@ import Enterprise.EnterpriseAccount;
 import Enterprise.EnterpriseInfo;
 import Enterprise.EnterpriseMainHome;
 import UserEnterprise.UserEnterpriseHome;
+import com.travelmaker.Dataanalyst.ChartMain;
 import com.travelmaker.UI.OrganizationFrame;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public class HomeLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        UserPanel = new javax.swing.JTabbedPane();
+        Analyst = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         OrganizationPanel = new javax.swing.JPanel();
@@ -92,6 +93,18 @@ public class HomeLogin extends javax.swing.JFrame {
         btnCancel1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        AdminPanel6 = new javax.swing.JPanel();
+        lblTitle6 = new javax.swing.JLabel();
+        lblUsername6 = new javax.swing.JLabel();
+        txtAnalystUsername = new javax.swing.JTextField();
+        lblPasswoed6 = new javax.swing.JLabel();
+        pwdAnalyst = new javax.swing.JPasswordField();
+        btnAnalystLogin = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        btnAdminCancel1 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,7 +121,7 @@ public class HomeLogin extends javax.swing.JFrame {
             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        UserPanel.addTab("Home", HomePanel);
+        Analyst.addTab("Home", HomePanel);
 
         AdminPanel4.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -227,7 +240,7 @@ public class HomeLogin extends javax.swing.JFrame {
                 .addContainerGap(129, Short.MAX_VALUE))
         );
 
-        UserPanel.addTab("Organization", OrganizationPanel);
+        Analyst.addTab("Organization", OrganizationPanel);
 
         AdminPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -340,7 +353,7 @@ public class HomeLogin extends javax.swing.JFrame {
                 .addContainerGap(106, Short.MAX_VALUE))
         );
 
-        UserPanel.addTab("Enterprise", EnterprisePanel);
+        Analyst.addTab("Enterprise", EnterprisePanel);
 
         AdminPanel5.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -456,7 +469,7 @@ public class HomeLogin extends javax.swing.JFrame {
                 .addContainerGap(123, Short.MAX_VALUE))
         );
 
-        UserPanel.addTab("Admin", AdminPanel);
+        Analyst.addTab("Admin", AdminPanel);
 
         AdminPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -572,17 +585,133 @@ public class HomeLogin extends javax.swing.JFrame {
                 .addContainerGap(123, Short.MAX_VALUE))
         );
 
-        UserPanel.addTab("User", jPanel1);
+        Analyst.addTab("User", jPanel1);
+
+        AdminPanel6.setBackground(new java.awt.Color(0, 153, 255));
+
+        lblTitle6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lblTitle6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle6.setText("Analyst login Page");
+        lblTitle6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblUsername6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblUsername6.setText("Username :");
+
+        lblPasswoed6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblPasswoed6.setText("Password :");
+
+        btnAnalystLogin.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnAnalystLogin.setText("Login");
+        btnAnalystLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalystLoginActionPerformed(evt);
+            }
+        });
+
+        btnAdminCancel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnAdminCancel1.setText("Cancel");
+        btnAdminCancel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminCancel1ActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setIcon(new javax.swing.ImageIcon("/Users/yufei/NetBeansProjects/AED_FinalProject-fanchi/TravelMaker/src/main/java/Picture/User.png")); // NOI18N
+
+        javax.swing.GroupLayout AdminPanel6Layout = new javax.swing.GroupLayout(AdminPanel6);
+        AdminPanel6.setLayout(AdminPanel6Layout);
+        AdminPanel6Layout.setHorizontalGroup(
+            AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel6Layout.createSequentialGroup()
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel16)
+                        .addGap(172, 172, 172))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel6Layout.createSequentialGroup()
+                        .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(AdminPanel6Layout.createSequentialGroup()
+                                    .addComponent(lblUsername6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtAnalystUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel6Layout.createSequentialGroup()
+                                    .addComponent(lblPasswoed6)
+                                    .addGap(22, 22, 22)
+                                    .addComponent(pwdAnalyst, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(AdminPanel6Layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(btnAdminCancel1)
+                                .addGap(63, 63, 63)
+                                .addComponent(btnAnalystLogin)))
+                        .addGap(52, 52, 52))))
+        );
+        AdminPanel6Layout.setVerticalGroup(
+            AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AdminPanel6Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(lblTitle6)
+                .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AdminPanel6Layout.createSequentialGroup()
+                        .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AdminPanel6Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel14))
+                            .addGroup(AdminPanel6Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel15)))
+                        .addGap(58, 58, 58))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel16)
+                        .addGap(18, 18, 18)))
+                .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsername6)
+                    .addComponent(txtAnalystUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPasswoed6)
+                    .addComponent(pwdAnalyst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(AdminPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdminCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnalystLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(AdminPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(AdminPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+
+        Analyst.addTab("Analyst", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UserPanel)
+            .addComponent(Analyst)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UserPanel)
+            .addComponent(Analyst)
         );
 
         pack();
@@ -747,6 +876,25 @@ public class HomeLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminCancelActionPerformed
 
+    private void btnAnalystLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalystLoginActionPerformed
+        // TODO add your handling code here:
+        if (txtAnalystUsername.getText().equals("cc") && pwdAnalyst.getText().equals("cc")){
+            setVisible(false);
+            new ChartMain().setVisible(true);    
+        }
+        else if(txtAnalystUsername.getText().equals("11") && pwdAnalyst.getText().equals("11")){
+            setVisible(false);
+            new ChartMain().setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Incorrect Username or Password!");
+        }
+    }//GEN-LAST:event_btnAnalystLoginActionPerformed
+
+    private void btnAdminCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminCancel1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdminCancel1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -789,12 +937,15 @@ public class HomeLogin extends javax.swing.JFrame {
     private javax.swing.JPanel AdminPanel3;
     private javax.swing.JPanel AdminPanel4;
     private javax.swing.JPanel AdminPanel5;
+    private javax.swing.JPanel AdminPanel6;
+    private javax.swing.JTabbedPane Analyst;
     private javax.swing.JPanel EnterprisePanel;
     private javax.swing.JPanel HomePanel;
     private javax.swing.JPanel OrganizationPanel;
-    private javax.swing.JTabbedPane UserPanel;
     private javax.swing.JButton btnAdminCancel;
+    private javax.swing.JButton btnAdminCancel1;
     private javax.swing.JButton btnAdminLogin;
+    private javax.swing.JButton btnAnalystLogin;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancel1;
     private javax.swing.JButton btnCancel2;
@@ -806,6 +957,9 @@ public class HomeLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -815,23 +969,29 @@ public class HomeLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblPasswoed2;
     private javax.swing.JLabel lblPasswoed3;
     private javax.swing.JLabel lblPasswoed4;
     private javax.swing.JLabel lblPasswoed5;
+    private javax.swing.JLabel lblPasswoed6;
     private javax.swing.JLabel lblTitle2;
     private javax.swing.JLabel lblTitle3;
     private javax.swing.JLabel lblTitle4;
     private javax.swing.JLabel lblTitle5;
+    private javax.swing.JLabel lblTitle6;
     private javax.swing.JLabel lblUsername2;
     private javax.swing.JLabel lblUsername3;
     private javax.swing.JLabel lblUsername4;
     private javax.swing.JLabel lblUsername5;
+    private javax.swing.JLabel lblUsername6;
     private javax.swing.JPasswordField pwdAdmin;
+    private javax.swing.JPasswordField pwdAnalyst;
     private javax.swing.JPasswordField pwdEnterprise;
     private javax.swing.JPasswordField pwdOrganization;
     private javax.swing.JPasswordField pwdUser;
     private javax.swing.JTextField txtAdminUsername;
+    private javax.swing.JTextField txtAnalystUsername;
     private javax.swing.JTextField txtOrganizationUsername;
     private javax.swing.JTextField txtUsername;
     private javax.swing.JTextField txtUsername1;

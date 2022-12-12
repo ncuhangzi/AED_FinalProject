@@ -6,6 +6,7 @@ package UserEnterprise;
 
 import Enterprise.Enterprise;
 import Enterprise.EnterpriseMainHome;
+import LoginPage.HomeLogin;
 import LoginPage.MyConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -300,6 +302,13 @@ public class UserEnterpriseHome extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+        HomeLogin lgf = new HomeLogin();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+        lgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+        
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnLikeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLikeMouseClicked

@@ -5,6 +5,7 @@
 package com.travelmaker.Dataanalyst;
 
 
+import LoginPage.HomeLogin;
 import LoginPage.MyConnection;
 import UserEnterprise.Travel;
 import java.awt.Color;
@@ -376,6 +377,11 @@ public class ChartMain extends javax.swing.JFrame {
     }//GEN-LAST:event_foldLabelMouseClicked
 
     private void crossLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crossLabelMouseClicked
+        HomeLogin lgf = new HomeLogin();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+        lgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_crossLabelMouseClicked
 

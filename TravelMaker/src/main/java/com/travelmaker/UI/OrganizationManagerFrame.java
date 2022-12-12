@@ -997,7 +997,7 @@ public class OrganizationManagerFrame extends javax.swing.JFrame {
         City city = state.findCity(cname);
         
         
-        selectattraction.AddUpdateDeleteAttraction('d', selectattraction.getUid(), selectattraction.getName(), selectattraction.getLocation(), selectattraction.getCost(), selectattraction.getType(), cname, state.getName(), picture);
+//        selectattraction.AddUpdateDeleteAttraction('d', selectattraction.getUid(), selectattraction.getName(), selectattraction.getLocation(), selectattraction.getCost(), selectattraction.getType(), cname, state.getName(), picture);
 
         tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
         selectattraction.fillJtable(tblAttraction, "");
@@ -1056,7 +1056,7 @@ public class OrganizationManagerFrame extends javax.swing.JFrame {
         selectattraction.setLocation(lblAttractionLoc.getText());
         lblAttractionId.setText(selectattraction.getUid());
         
-        selectattraction.AddUpdateDeleteAttraction('u', selectattraction.getUid(), aname, lblAttractionLoc.getText(), cost, type, cname, state.getName(), picture);
+//        selectattraction.AddUpdateDeleteAttraction('u', selectattraction.getUid(), aname, lblAttractionLoc.getText(), cost, type, cname, state.getName(), picture);
 
         tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","State","Type","City","Cost","Location","Image","Attraction"}));
         selectattraction.fillJtable(tblAttraction, "");
@@ -1093,7 +1093,7 @@ public class OrganizationManagerFrame extends javax.swing.JFrame {
         newattraction.setLocation(location);
         newattraction.setType(type);
         
-        newattraction.AddUpdateDeleteAttraction('i', uid, aname, location, price, type, city, state.getName(), picture);
+//        newattraction.AddUpdateDeleteAttraction('i', uid, aname, location, price, type, city, state.getName(), picture);
 
         tblAttraction.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","City","State","Zip code","Location","Start Date","End Date","Type","Price","Picture","Detail"}));
         newattraction.fillJtable(tblAttraction, "");

@@ -6,12 +6,14 @@ package UserEnterprise;
 
 import static Enterprise.CreateTravel.tblTravel;
 import Enterprise.Enterprise;
+import static Enterprise.EnterpriseManagement.tblEnterprise;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //import static Enterprise.EnterpriseInfo.tblEnterprise;
 import javax.swing.table.DefaultTableModel;
 import LoginPage.MyConnection;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,16 +33,38 @@ public class UserManagement extends javax.swing.JFrame {
      * Creates new form TravelInfo
      */
     
-    Travel travel = new Travel();
+    
     DefaultTableModel model;
+    Enterprise etp = new Enterprise();//要改
+    long curId;
     
     public UserManagement() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        etp.fillJtable(tblUser, "");
+        model = (DefaultTableModel)tblUser.getModel();
+        tblUser.setRowHeight(40);
+        tblUser.setShowGrid(true);
+        tblUser.setGridColor(Color.BLUE);
+        tblUser.setSelectionBackground(Color.BLACK);
 //        user.fillInfoJtable(tblUser, "");
 //        model = (DefaultTableModel)tblUser.getModel();
         
     }
-
+    public boolean verifText(){
+        
+        if(txtName.getText().equals("") || txtPassword.getText().equals("") )
+        {
+            JOptionPane.showMessageDialog(null, "One Or More Empty Field!");
+            return false;
+        }
+        // choose a date higher then the current date
+        // || endDateChooser.getDate().compareTo(startDateChooser.getDate()) == 1
+        else{
+            return true;
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,11 +175,6 @@ public class UserManagement extends javax.swing.JFrame {
                 tblUserMouseClicked(evt);
             }
         });
-        tblUser.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblUserKeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblUser);
 
         btnCreate.setText("Create");
@@ -166,22 +185,12 @@ public class UserManagement extends javax.swing.JFrame {
         });
 
         txtName.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNameKeyTyped(evt);
-            }
-        });
 
         lblSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 255, 255));
         lblSearch.setText("Name :");
 
         txtPassword.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPasswordKeyTyped(evt);
-            }
-        });
 
         lblSearch1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         lblSearch1.setForeground(new java.awt.Color(255, 255, 255));
@@ -279,106 +288,63 @@ public class UserManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     int rowIndex;
-    private void txtNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyTyped
-        // TODO add your handling code here:
-        tblUser.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
-        travel.fillInfoJtable(tblUser, txtName.getText());
-        
-    }//GEN-LAST:event_txtNameKeyTyped
-
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         
-        Connection con = MyConnection.getConnection();
-        PreparedStatement ps;
-            
-        try {
-            
-            ps = con.prepareStatement("INSERT INTO TravelLike(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-            ps.setLong(1, ID);
-            ps.setString(2, Organization);
-            ps.setString(3, City);
-            ps.setString(4, Type);
-            ps.setString(5, Attraction);
-            ps.setString(6, Location);
-            ps.setDouble(7, Cost);
-            ps.setDouble(8, Price);
-            ps.setString(9, Travel);
-            ps.setString(10,  startDate);
-            ps.setString(11, endDate);
-            ps.setString(12, Detail);
-                
-                if(ps.executeUpdate() > 0){
-                    JOptionPane.showMessageDialog(null, "New Enterprise Added!");
-                }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(UserManagement.class.getName()).log(Level.SEVERE, null, ex);
+        String Name = txtName.getText();
+        String Password = txtPassword.getText();
+        
+        if(verifText()){
+            //need to change o the enterprise user table
+            //Enterprise ep = new Enterprise();
+            etp.AddUpdateDeleteEnterprise('i', Name, Password);
+
+            tblUser.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+            etp.fillJtable(tblUser, "");
         }
         
     }//GEN-LAST:event_btnCreateActionPerformed
 
-    long ID;
-    String Organization;
-    String City;
-    String Type;
-    String Attraction;
-    String Location;
-    double Cost;
-    double Price;
-    String Travel;
-    String Detail;
-    String startDate;
-    String endDate;
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
-        // TODO add your handling code here:
-
-        //        DefaultTableModel model = (DefaultTableModel)tblEnterprise.getModel();
         rowIndex = tblUser.getSelectedRow();
 
-        ID = Long.parseLong(model.getValueAt(rowIndex, 0).toString());
-        Organization = model.getValueAt(rowIndex, 1).toString();
-        City = model.getValueAt(rowIndex, 2).toString();
-        Type = model.getValueAt(rowIndex, 3).toString();
-        Attraction = model.getValueAt(rowIndex, 4).toString();
-        Location = model.getValueAt(rowIndex, 5).toString();
-        Cost = Double.parseDouble(model.getValueAt(rowIndex, 6).toString());
-        Price = Double.parseDouble(model.getValueAt(rowIndex, 7).toString());
-        Travel = model.getValueAt(rowIndex, 8).toString();
-        startDate = model.getValueAt(rowIndex, 9).toString();
-        endDate = model.getValueAt(rowIndex, 10).toString();
-        Detail = model.getValueAt(rowIndex, 11).toString();
-        
-        
-        
-        
-//        txtID.setText(model.getValueAt(rowIndex, 0).toString());
-//        jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
-//        jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
-//        jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
-//        jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-//        txtLocation.setText(model.getValueAt(rowIndex, 5).toString());
-//        txtCost.setText(model.getValueAt(rowIndex, 6).toString());
-//        txtPrice.setText(model.getValueAt(rowIndex, 7).toString());
-//        txtTravel.setText(model.getValueAt(rowIndex, 8).toString());
-//        
-//        txtDetail.setText(model.getValueAt(rowIndex, 11).toString());
+        long ID = Long.parseLong(model.getValueAt(rowIndex, 0).toString());
+        String Name = model.getValueAt(rowIndex, 1).toString();
+        String Password = model.getValueAt(rowIndex, 2).toString();
+        txtName.setText(Name);
+        txtPassword.setText(Password);
+        this.curId = ID;
+
         
     }//GEN-LAST:event_tblUserMouseClicked
 
-    private void tblUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyReleased
-        // TODO add your handling code here
-    }//GEN-LAST:event_tblUserKeyReleased
-
-    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordKeyTyped
-
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        String Enter_Name = txtName.getText();
+        String Enter_Password = txtPassword.getText();
+        
+        if(verifText()){
+            //Enterprise ep = new Enterprise();
+            etp.AddUpdateDeleteEnterprise('u', curId,Enter_Name, Enter_Password);
+
+            tblUser.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+            etp.fillJtable(tblUser, "");
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+         if(txtName.getText().equals(""))
+        {
+           JOptionPane.showMessageDialog(null, "No User Selected");
+        }
+        
+        long Enter_ID = curId;
+        //Enterprise etp = new Enterprise();
+        etp.AddUpdateDeleteEnterprise('d', Enter_ID, null, null);
+        tblUser.setModel(new DefaultTableModel(null,new Object[]{"ID","Name","Password"}));
+        etp.fillJtable(tblUser, "");
+        
+        curId=0;
+        txtName.setText("");
+        txtPassword.setText("");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**

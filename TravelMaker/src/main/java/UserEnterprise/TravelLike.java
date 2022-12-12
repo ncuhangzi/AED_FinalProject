@@ -5,7 +5,6 @@
 package UserEnterprise;
 
 import LoginPage.MyConnection;
-import static UserEnterprise.TravelInfo.tblTravel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -155,11 +154,11 @@ public class TravelLike extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail"
+                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail", "Enterprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -221,7 +220,7 @@ public class TravelLike extends javax.swing.JFrame {
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblTravelLike.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+        tblTravelLike.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
         travel.fillLikeJtable(tblTravelLike, txtSearch.getText());
     }//GEN-LAST:event_txtSearchKeyTyped
 
@@ -239,6 +238,7 @@ public class TravelLike extends javax.swing.JFrame {
     String Detail;
     String startDate;
     String endDate;
+    String Ename;
     private void tblTravelLikeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelLikeMouseClicked
         // TODO add your handling code here:
 
@@ -259,6 +259,7 @@ public class TravelLike extends javax.swing.JFrame {
         startDate = model.getValueAt(rowIndex, 9).toString();
         endDate = model.getValueAt(rowIndex, 10).toString();
         Detail = model.getValueAt(rowIndex, 11).toString();
+        Ename = model.getValueAt(rowIndex, 12).toString();
     }//GEN-LAST:event_tblTravelLikeMouseClicked
 
     private void tblTravelLikeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelLikeKeyReleased
@@ -300,7 +301,7 @@ public class TravelLike extends javax.swing.JFrame {
             
         try {
             
-            ps = con.prepareStatement("INSERT INTO TravelOrder(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO TravelOrder(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail, Tenterprise) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setLong(1, ID);
             ps.setString(2, Organization);
             ps.setString(3, City);
@@ -313,6 +314,7 @@ public class TravelLike extends javax.swing.JFrame {
             ps.setString(10,  startDate);
             ps.setString(11, endDate);
             ps.setString(12, Detail);
+            ps.setString(13, Ename);
                 
                 if(ps.executeUpdate() > 0){
                     JOptionPane.showMessageDialog(null, "New Enterprise Added!");

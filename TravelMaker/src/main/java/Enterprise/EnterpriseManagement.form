@@ -286,9 +286,6 @@
               <Font name="Helvetica Neue" size="18" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNameKeyTyped"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSearch">
           <Properties>
@@ -307,9 +304,6 @@
               <Font name="Helvetica Neue" size="18" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyTyped"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSearch1">
           <Properties>

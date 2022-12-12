@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,13 +26,18 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
     /** Creates new form EnterpriseMainHome */
     
     EnterpriseAccount EA = new EnterpriseAccount();
+    String Eusername;
     
     public EnterpriseMainHome(){
         initComponents();
     }
     
+    
     public EnterpriseMainHome(String username, String password) {
         initComponents();
+        
+        Eusername = username;
+        
         
         Connection con = MyConnection.getConnection();
         PreparedStatement ps;
@@ -275,7 +281,7 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
     private void btnInfo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfo1ActionPerformed
         // TODO add your handling code here:
         
-        CreateTravel CT = new CreateTravel();
+        CreateTravel CT = new CreateTravel(Eusername);
         CT.setVisible(true);
         CT.pack();
         CT.setLocationRelativeTo(null);
@@ -287,6 +293,11 @@ public class EnterpriseMainHome extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+        HomeLogin lgf = new HomeLogin();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+        lgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 

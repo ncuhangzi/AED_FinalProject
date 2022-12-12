@@ -4,7 +4,6 @@
  */
 package UserEnterprise;
 
-import static Enterprise.CreateTravel.tblTravel;
 import Enterprise.Enterprise;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,8 +35,8 @@ public class TravelInfo extends javax.swing.JFrame {
     
     public TravelInfo() {
         initComponents();
-        travel.fillInfoJtable(tblTravel, "");
-        model = (DefaultTableModel)tblTravel.getModel();
+        travel.fillInfoJtable(tblTravelInfo, "");
+        model = (DefaultTableModel)tblTravelInfo.getModel();
         
     }
 
@@ -61,7 +60,7 @@ public class TravelInfo extends javax.swing.JFrame {
         btnCollect = new javax.swing.JButton();
         BotPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTravel = new javax.swing.JTable();
+        tblTravelInfo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,33 +163,33 @@ public class TravelInfo extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        tblTravel.setModel(new javax.swing.table.DefaultTableModel(
+        tblTravelInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail"
+                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail", "Enterprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        tblTravel.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblTravelInfo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTravelMouseClicked(evt);
+                tblTravelInfoMouseClicked(evt);
             }
         });
-        tblTravel.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblTravelInfo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblTravelKeyReleased(evt);
+                tblTravelInfoKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblTravel);
+        jScrollPane1.setViewportView(tblTravelInfo);
 
         javax.swing.GroupLayout BotPanelLayout = new javax.swing.GroupLayout(BotPanel);
         BotPanel.setLayout(BotPanelLayout);
@@ -236,41 +235,10 @@ public class TravelInfo extends javax.swing.JFrame {
     int rowIndex;
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblTravel.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
-        travel.fillInfoJtable(tblTravel, txtSearch.getText());
+        tblTravelInfo.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
+        travel.fillInfoJtable(tblTravelInfo, txtSearch.getText());
         
     }//GEN-LAST:event_txtSearchKeyTyped
-
-    private void btnCollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectActionPerformed
-        
-        Connection con = MyConnection.getConnection();
-        PreparedStatement ps;
-            
-        try {
-            
-            ps = con.prepareStatement("INSERT INTO TravelLike(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-            ps.setLong(1, ID);
-            ps.setString(2, Organization);
-            ps.setString(3, City);
-            ps.setString(4, Type);
-            ps.setString(5, Attraction);
-            ps.setString(6, Location);
-            ps.setDouble(7, Cost);
-            ps.setDouble(8, Price);
-            ps.setString(9, Travel);
-            ps.setString(10,  startDate);
-            ps.setString(11, endDate);
-            ps.setString(12, Detail);
-                
-                if(ps.executeUpdate() > 0){
-                    JOptionPane.showMessageDialog(null, "New Enterprise Added!");
-                }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(TravelInfo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_btnCollectActionPerformed
 
     long ID;
     String Organization;
@@ -284,11 +252,50 @@ public class TravelInfo extends javax.swing.JFrame {
     String Detail;
     String startDate;
     String endDate;
-    private void tblTravelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelMouseClicked
+    String Ename;
+    
+    private void btnCollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectActionPerformed
+        
+        Connection con = MyConnection.getConnection();
+        PreparedStatement ps;
+            
+        try {
+            
+            ps = con.prepareStatement("INSERT INTO TravelLike(TID, Torganization, Tcity, Ttype, Tattraction, Tlocation, Tcost, Tprice, Travelname, Tstartdate, Tenddate, Tdetail, Tenterprise) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps.setLong(1, ID);
+            ps.setString(2, Organization);
+            ps.setString(3, City);
+            ps.setString(4, Type);
+            ps.setString(5, Attraction);
+            ps.setString(6, Location);
+            ps.setDouble(7, Cost);
+            ps.setDouble(8, Price);
+            ps.setString(9, Travel);
+            ps.setString(10,  startDate);
+            ps.setString(11, endDate);
+            ps.setString(12, Detail);
+            ps.setString(13, Ename);
+            
+                
+                if(ps.executeUpdate() > 0){
+                    JOptionPane.showMessageDialog(null, "New Enterprise Added!");
+                }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TravelInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnCollectActionPerformed
+
+    private void tblTravelInfoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelInfoKeyReleased
+        // TODO add your handling code here
+    }//GEN-LAST:event_tblTravelInfoKeyReleased
+
+    private void tblTravelInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelInfoMouseClicked
         // TODO add your handling code here:
 
         //        DefaultTableModel model = (DefaultTableModel)tblEnterprise.getModel();
-        rowIndex = tblTravel.getSelectedRow();
+        rowIndex = tblTravelInfo.getSelectedRow();
 
         ID = Long.parseLong(model.getValueAt(rowIndex, 0).toString());
         Organization = model.getValueAt(rowIndex, 1).toString();
@@ -302,28 +309,22 @@ public class TravelInfo extends javax.swing.JFrame {
         startDate = model.getValueAt(rowIndex, 9).toString();
         endDate = model.getValueAt(rowIndex, 10).toString();
         Detail = model.getValueAt(rowIndex, 11).toString();
-        
-        
-        
-        
-//        txtID.setText(model.getValueAt(rowIndex, 0).toString());
-//        jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
-//        jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
-//        jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
-//        jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-//        txtLocation.setText(model.getValueAt(rowIndex, 5).toString());
-//        txtCost.setText(model.getValueAt(rowIndex, 6).toString());
-//        txtPrice.setText(model.getValueAt(rowIndex, 7).toString());
-//        txtTravel.setText(model.getValueAt(rowIndex, 8).toString());
-//        
-//        txtDetail.setText(model.getValueAt(rowIndex, 11).toString());
-        
-    }//GEN-LAST:event_tblTravelMouseClicked
+        Ename = model.getValueAt(rowIndex, 12).toString();
+        //        txtID.setText(model.getValueAt(rowIndex, 0).toString());
+        //        jcxOrganization.setSelectedItem(model.getValueAt(rowIndex, 1).toString());
+        //        jcxCity.setSelectedItem(model.getValueAt(rowIndex, 2).toString());
+        //        jcxType.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
+        //        jcxAttraction.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+        //        txtLocation.setText(model.getValueAt(rowIndex, 5).toString());
+        //        txtCost.setText(model.getValueAt(rowIndex, 6).toString());
+        //        txtPrice.setText(model.getValueAt(rowIndex, 7).toString());
+        //        txtTravel.setText(model.getValueAt(rowIndex, 8).toString());
+        //
+        //        txtDetail.setText(model.getValueAt(rowIndex, 11).toString());
 
-    private void tblTravelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelKeyReleased
-        // TODO add your handling code here
-    }//GEN-LAST:event_tblTravelKeyReleased
+    }//GEN-LAST:event_tblTravelInfoMouseClicked
 
+    
     /**
      * @param args the command line arguments
      */
@@ -370,7 +371,7 @@ public class TravelInfo extends javax.swing.JFrame {
     private javax.swing.JLabel lblIcon2;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblTitle2;
-    public static javax.swing.JTable tblTravel;
+    public static javax.swing.JTable tblTravelInfo;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

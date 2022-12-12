@@ -5,7 +5,6 @@
 package UserEnterprise;
 
 
-import static UserEnterprise.TravelLike.tblTravelLike;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -138,11 +137,11 @@ public class TravelOrder extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail"
+                "ID", "Organization", "City", "Type", "Attraction", "Location", "Cost", "Price", "Travel Name", "Start Date", "End Date", "Detail", "Enterprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -200,7 +199,7 @@ public class TravelOrder extends javax.swing.JFrame {
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
         // TODO add your handling code here:
-        tblTravelOrder.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail"}));
+        tblTravelOrder.setModel(new DefaultTableModel(null,new Object[]{"ID","Organization","City","Type","Attaction","Location","Cost","Price","Travel Name","Start Date","End Date","Detail","Enterprise"}));
         travel.fillOrderJtable(tblTravelOrder, txtSearch.getText());
     }//GEN-LAST:event_txtSearchKeyTyped
 
@@ -217,6 +216,7 @@ public class TravelOrder extends javax.swing.JFrame {
     String Detail;
     String startDate;
     String endDate;
+    String Ename;
     
     private void tblTravelOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTravelOrderMouseClicked
         // TODO add your handling code here:
@@ -236,6 +236,7 @@ public class TravelOrder extends javax.swing.JFrame {
         startDate = model.getValueAt(rowIndex, 9).toString();
         endDate = model.getValueAt(rowIndex, 10).toString();
         Detail = model.getValueAt(rowIndex, 11).toString();
+        Ename = model.getValueAt(rowIndex, 12).toString();
     }//GEN-LAST:event_tblTravelOrderMouseClicked
 
     private void tblTravelOrderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTravelOrderKeyReleased
