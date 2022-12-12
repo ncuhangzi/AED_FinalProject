@@ -9,6 +9,6 @@ UI/UX lib: Javax Swing
 
 
 ### Use Case Diagram for the System (created by draw.io)
-![alt text](https://imgur.com/vFa3z7E)
+![alt text](https://i.imgur.com/vFa3z7E.jpg)
 ### UML diagram for the system (created by draw.io)
-![alt text](https://imgur.com/33tXOyH)
+![alt text](https://i.imgur.com/33tXOyH.jpg)
